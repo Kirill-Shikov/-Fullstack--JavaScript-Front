@@ -1,5 +1,3 @@
-// src/components/ui/Pagination/Pagination.tsx
-
 import React from 'react';
 import { PaginationPrevButton, PaginationNextButton } from '../Button';
 import { usePagination } from './usePagination';

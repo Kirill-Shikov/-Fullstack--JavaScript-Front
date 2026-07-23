@@ -4,7 +4,6 @@ import { AllIcons } from '../../../assets';
 interface IconProps {
   name: string;
   size?: number | string;
-  color?: string;
   className?: string;
   onClick?: () => void;
 }
@@ -12,11 +11,9 @@ interface IconProps {
 export const Icon: React.FC<IconProps> = ({
   name,
   size = 24,
-  color = 'currentColor',
   className = '',
   onClick,
 }) => {
-  // Берем иконку из объекта по имени
   const iconPath = AllIcons[name as keyof typeof AllIcons];
 
   if (!iconPath) {
@@ -24,15 +21,16 @@ export const Icon: React.FC<IconProps> = ({
     return null;
   }
 
+  const iconSize = typeof size === 'number' ? size : parseInt(size) || 24;
+
   return (
     <img
       src={iconPath}
       alt={name}
-      width={typeof size === 'number' ? size : parseInt(size) || 24}
-      height={typeof size === 'number' ? size : parseInt(size) || 24}
+      width={iconSize}
+      height={iconSize}
       className={className}
       onClick={onClick}
-      style={{ color }}
     />
   );
 };

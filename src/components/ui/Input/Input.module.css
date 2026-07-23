@@ -1,0 +1,79 @@
+/* ===== ОБЕРТКА ===== */
+.inputContainer {
+  display: flex;
+  align-items: center;
+  width: 483px;
+  padding: 16px 24px;
+  border: 1px solid #000000;
+  border-radius: 16px;
+  background-color: #FFFEF0;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* =====  ОБЫЧНОЕ СОСТОЯНИЕ ===== */
+.inputContainer {
+  background: #FFFEF0;
+}
+
+/* =====  ACTIVE  ===== */
+.inputContainer:focus-within {
+  background: #F0FFF1;
+}
+
+.inputContainer.filled:focus-within {
+  background: #F0FFF1;}
+
+/* =====  FILLED ===== */
+.inputContainer.filled {
+  border-color: #000000;
+  background: #FFFEF0;
+}
+
+/* ===== ERROR  ===== */
+.inputContainer.error {
+  border-color: #FF2125;
+}
+
+.icon {
+ filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(7000%) hue-rotate(0deg) brightness(100%) contrast(120%);
+}
+
+.errorText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #FF2125;
+  margin-top: 5px;
+}
+
+.inputContainer.error:focus-within {
+  border-color: #FF2125;
+  background: #F0FFF1;
+}
+
+/* =====  DISABLED  ===== */
+.inputContainer.disabled {
+  background: #98A49B;
+}
+
+/* ===== САМ ИНПУТ ===== */
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #93A497;
+  min-width: 0;
+}
+
+.input:not(:placeholder-shown) {
+  color: #000000;
+}
+
+.inputContainer.disabled .input {
+  color: #69786C;
+}
