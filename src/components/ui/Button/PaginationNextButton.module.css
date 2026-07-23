@@ -1,0 +1,25 @@
+.nextButton {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  padding: 4px 12px;
+  border: 1px solid #000000;
+  border-radius: 18px;
+  background-color: #6AA378;
+  justify-content: center;
+  align-items: center;
+}
+
+.smallBtnShadow {
+  box-shadow:  2px 2px #000000;
+}
+
+.nextButton:hover {
+  box-shadow: none;
+}
+
+.nextButton:disabled {
+  background-color: #98A49B;
+  color: #69786C;
+  box-shadow: none;
+}

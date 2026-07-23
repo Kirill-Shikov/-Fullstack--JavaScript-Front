@@ -1,0 +1,40 @@
+.deleteUserButton {
+  display: flex;
+  width: 241px;
+  height: 51px;
+
+  padding: 16px 24px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid #000000;
+  border-radius: 20px;
+
+
+  background-color: #FF4347;
+  color: #000000;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.smallBtnShadow {
+  box-shadow:  4px 4px #000000;
+}
+
+.deleteUserButton:hover {
+  box-shadow: none;
+}
+
+.deleteUserButton:active {
+  background-color: #FF2125;
+  box-shadow: none;
+}
+
+.deleteUserButton:disabled {
+  background-color: #98A49B;
+  color: #69786C;
+  box-shadow: none;
+}

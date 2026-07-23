@@ -1,0 +1,80 @@
+.pagination {
+  display: flex;
+  width: 332px;
+  height: 68px;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  background-color: #FFFEF0;
+}
+
+.wrapperPagination {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pages {
+  display: flex;
+  width: 148px;
+  height: 36px;
+  gap: 16px;
+}
+
+.wrapperPages {
+  display: flex;
+  width: 148px;
+  height: 36px;
+  gap: 16px;
+}
+
+.pageButton {
+  border: none;
+  background-color: none;
+}
+
+.pageButton {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFEF0;
+  color: #000000;
+}
+
+.pageButton.active {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 12px;
+  border: 1px solid #000000;
+  border-radius: 18px;
+  background-color: #FFC33E;
+}
+
+.pageButton:disabled {
+  color: #000000;
+}
+
+.pageButton:focus {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 12px;
+  border: 1px solid #000000;
+  border-radius: 18px;
+  background-color: #FFC33E;
+}
+
+.pageButton.dots {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+}

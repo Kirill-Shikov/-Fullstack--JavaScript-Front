@@ -1,0 +1,41 @@
+.findBookButton {
+  display: flex;
+  width: 296px;
+  height: 51px;
+
+  padding: 16px 24px;
+  gap: 10px;
+
+  border: 1px solid #000000;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+
+
+
+  background-color: #FFC33E;
+  color: #000000;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.smallBtnShadow {
+  box-shadow:  4px 4px #000000;
+}
+
+.findBookButton:hover {
+  box-shadow: none; 
+}
+
+.findBookButton:active {
+  background-color: #F49425;
+  box-shadow: none; 
+}
+
+.findBookButton:disabled {
+  background-color: #98A49B;
+  color: #69786C;
+  box-shadow: none;
+}

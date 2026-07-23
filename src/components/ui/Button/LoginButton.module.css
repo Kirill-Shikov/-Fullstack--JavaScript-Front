@@ -1,0 +1,41 @@
+.loginButton {
+  display: flex;
+  width: 186px;
+  height: 51px;
+
+  padding: 16px 24px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+
+  border: 1px solid #000000;
+  border-radius: 20px;
+
+
+  background-color: #6AA378;
+  color: #000000;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.smallBtnShadow {
+  box-shadow:  4px 4px #000000;
+}
+
+.loginButton:hover {
+  box-shadow: none;
+}
+
+.loginButton:active {
+  background-color: #23685B;
+  box-shadow: none;
+}
+
+.loginButton:disabled {
+  background-color: #98A49B;
+  color: #69786C;
+  box-shadow: none;
+}

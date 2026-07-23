@@ -1,0 +1,34 @@
+.backButton {
+  display: flex;
+  width: 116px;
+  height: 40px;
+
+  padding: 8px 16px;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+
+
+  border: 1px solid #000000;
+  border-radius: 20px;
+
+  background-color: #FFC33E;
+  color: #000000;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.smallBtnShadow {
+  box-shadow:  2px 2px #000000;
+}
+
+.backButton:hover {
+  box-shadow: none; 
+}
+
+.backButton:active {
+  background-color: #F49425;
+  box-shadow: none; 
+}
