@@ -1,0 +1,52 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  max-width: 1920px;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  overflow: hidden;
+  background-color: #F0FFF1;
+  border: 1px solid #000000;
+  border-radius: 16px;
+}
+
+.footerLogo {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  margin: 40px 0 42px ;
+}
+
+.footerSocials {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 98px;
+}
+
+.footerText {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 120%;
+  margin-bottom: 40px;
+}
+
+.decorLeft {
+  position: absolute;
+  left: -45px;
+  top: -48.84px;
+  width: 853px;
+  height: 487.43px;
+  color: #D6EAD8;
+}
+
+
+.decorRight {
+  position: absolute;
+  top: -78.35px;
+  left: 1262px;
+  width: 931px;
+  height: auto;
+  color: #D6EAD8;
+}

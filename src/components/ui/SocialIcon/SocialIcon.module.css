@@ -1,0 +1,15 @@
+.socialLink {
+  display: flex;
+  width: 70px;
+  height: 70px;
+  gap: 24px;
+  border: 1px solid #000000;
+  border-radius: 35px;
+  justify-content: center;
+  align-items: center;
+  background-color: #6AA378;
+}
+
+.socialLink:hover {
+  background-color: #FFC33E;
+}
