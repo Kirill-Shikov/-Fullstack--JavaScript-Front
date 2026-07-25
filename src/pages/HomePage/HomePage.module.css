@@ -1,0 +1,145 @@
+.pageBlock {
+  display: flex;
+  margin: 0 320px 0 321px;
+  padding: 24px 0;
+  gap: 34px;
+}
+
+.searchSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  background-color: #D6EAD8;
+  padding: 32px 32px 56px;
+  margin-bottom: 160px;
+}
+
+.searchField {
+  display: flex;
+  flex-direction: column;
+  margin-bottom:  40px;
+}
+
+.searchLabel {
+  display: flex;
+  margin-bottom:  8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.homeSearchInput {
+  width: 668px;
+}
+
+.wrapper {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 35px;
+}
+
+.decorContainer {
+  display: flex;
+  position: relative;
+}
+
+.decorBack {
+  position: absolute;
+  color: #D6EAD8;
+  z-index: 1;
+}
+
+.decorUp {
+  position: absolute;
+  top: 73.47px;
+  left: 13.18px;
+  z-index: 2;
+}
+
+.editorSection {
+  margin: 0 320px 240px 321px;
+}
+
+.sectionTitle {
+  margin-bottom: 40px;
+}
+
+.editorGrid {
+  display: flex;
+  width: 1280px;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+/* ===== БЛОК "О НАС" ===== */
+.aboutSection {
+  display: flex;
+  width: 100%;
+  border: 1px solid #000000;
+  background-color: #F0FFF1;
+  overflow: hidden;
+  margin-bottom: 160px;
+}
+
+.aboutContainer {
+  display: flex;
+  padding: 118px 867px 107px 320px;
+  position: relative;
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  width: 733px;
+  height: 331px;
+  gap: 24px;
+}
+
+.aboutTitle {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  vertical-align: middle;
+  color: #000000;
+}
+
+.aboutText {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  vertical-align: middle;
+  color: #000000;
+}
+
+.decorUpg {
+  display: flex;
+  width: 439.9px;
+  height: 387px;
+  position: absolute;
+  top: 84px;
+  left: 1195px;
+  overflow: hidden;
+  z-index: 2;
+
+}
+
+.decorBackg {
+  display: flex;
+  width: 682px;
+  height: 688px;
+  position: absolute;
+  top: -56px;
+  left: 1025px;
+  overflow: hidden;
+  z-index: 1;
+  color: #D6EAD8;
+}
+
+.homeLibrariesMap {
+  display: flex;
+  margin-bottom: 200px;
+}

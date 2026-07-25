@@ -1,16 +1,21 @@
 import React from 'react';
-import { Header, Footer } from './components/layouts';
-import { HomePage } from './pages/HomePage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Header } from './components/layouts/Header/Header';
+import { Footer } from './components/layouts/Footer/Footer';
+import { HomePage } from './pages/HomePage/HomePage';
+import { SearchResultsPage } from './pages/SearchResultsPage/SearchResultsPage';
 
 function App() {
   return (
-    <div >
+    <BrowserRouter>
       <Header />
-      <main>
-        <HomePage />
-      </main>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/search" element={<SearchResultsPage />} />
+        <Route path="/search/:query" element={<SearchResultsPage />} />
+      </Routes>
       <Footer />
-    </div>
+    </BrowserRouter>
   );
 }
 

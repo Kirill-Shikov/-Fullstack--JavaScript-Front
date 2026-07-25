@@ -1,0 +1,121 @@
+.page {
+  width: 100%;
+  margin-bottom: 200px;
+  
+}
+
+/* ===== БЛОК ПОИСКА ===== */
+.pageBlock {
+  display: flex;
+  margin: 0 320px 0 321px;
+  padding: 24px 0;
+  gap: 62px;
+}
+
+.searchSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  background-color: #D6EAD8;
+  padding: 32px 32px 56px;
+  margin-bottom: 160px;
+}
+
+.searchField {
+  display: flex;
+  flex-direction: column;
+  margin-bottom:  40px;
+}
+
+.searchLabel {
+  display: flex;
+  margin-bottom:  8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.homeSearchInput {
+  width: 668px;
+}
+
+.wrapper {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 35px;
+}
+
+.decorContainer {
+  display: flex;
+  position: relative;
+}
+
+.decorUp {
+  position: absolute;
+  top: 73.47px;
+  left: 13.18px;
+}
+
+/* ===== РЕЗУЛЬТАТЫ ===== */
+
+.resultsHeader {
+  display: flex;
+  margin: 0 320px 0 321px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.resultsTitle {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.resultsGrid {
+  display: grid;
+  margin: 0 320px 0 321px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* ===== ПУСТОЙ РЕЗУЛЬТАТ ===== */
+
+.emptyResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 761px;
+  height: 155px;
+  margin: 0 580px 201px 579px;
+}
+
+.emptyTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+.emptyHint {
+  display: flex;
+  width: 100%;
+  padding: 0 69px 0 68px;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  color: #000000;
+}
+

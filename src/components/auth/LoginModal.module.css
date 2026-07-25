@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.searchButtonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 64px;
+}
+
+.registerHint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  text-align: center;
+  color: #000000;
+  gap: 5px;
+}
+
+.link {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  text-align: center;
+  color: #000000;
+  border: none;
+  background-color: transparent;
+}

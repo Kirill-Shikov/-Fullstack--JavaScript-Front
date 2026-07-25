@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  max-width: 1279px;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 320px 120px 321px;
+}
+
+
+.logo {
+  margin: 0 398px 0 290px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 120%;
+  color: #000000;
+  
+}
+
+.nav {
+  display: flex;
+  gap: 32px;
+}
+
+.navLink {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  text-decoration: none;
+}

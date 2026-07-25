@@ -9,6 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   fullWidth?: boolean;
+  loading?: boolean; 
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   fullWidth = false,
+  loading = false,
   children,
   className = '',
   disabled,

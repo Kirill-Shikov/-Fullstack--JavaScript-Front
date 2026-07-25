@@ -1,0 +1,59 @@
+.scrollWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.scrollContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.scrollContent {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  scrollbar-width: none;
+  margin-bottom: 40px;
+}
+
+.scrollContent::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollContent > * {
+  flex: 0 0 auto;
+  width: 515px;
+  height: 486px;
+}
+
+/* ===== КНОПКИ СПРАВА ВНИЗУ ===== */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.arrowButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #000000;
+  border-radius: 20px;
+  background-color: #FFC33E;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 2px #000000;
+}
+
+.arrowButton:hover {
+ box-shadow:none
+}

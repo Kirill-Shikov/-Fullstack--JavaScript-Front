@@ -2,7 +2,7 @@
 .inputContainer {
   display: flex;
   align-items: center;
-  width: 483px;
+  width: 100%;
   padding: 16px 24px;
   border: 1px solid #000000;
   border-radius: 16px;

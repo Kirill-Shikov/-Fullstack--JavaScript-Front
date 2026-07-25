@@ -8,6 +8,7 @@ interface PasswordInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
   errorText?: string;
+  className?: string;
   disabled?: boolean;
 }
 
@@ -17,6 +18,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
   onChange,
   error = false,
   errorText = 'вы указали не верный пароль',
+  className = '',
   disabled = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +30,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
   const isFilled = value !== undefined && value !== '';
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper}${className}`}>
       <div className={`
         ${styles.inputContainer}
         ${error ? styles.error : ''}
