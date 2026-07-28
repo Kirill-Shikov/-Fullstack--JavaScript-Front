@@ -1,3 +1,8 @@
+.page {
+  width: 100%;
+  background-color: #F6FFF7;
+}
+
 .pageBlock {
   display: flex;
   margin: 0 320px 0 321px;
@@ -80,6 +85,7 @@
   display: flex;
   width: 100%;
   border: 1px solid #000000;
+  border-radius: 32px;
   background-color: #F0FFF1;
   overflow: hidden;
   margin-bottom: 160px;
@@ -141,5 +147,5 @@
 
 .homeLibrariesMap {
   display: flex;
-  margin-bottom: 200px;
+  padding-bottom: 200px;
 }

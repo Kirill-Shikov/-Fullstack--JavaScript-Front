@@ -6,4 +6,3 @@ export { ProfileButton } from './ProfileButton';
 export { PaginationPrevButton } from './PaginationPrevButton';
 export { PaginationNextButton } from './PaginationNextButton';
 export { Button } from './Button';
-export { HorizontalScroll } from './HorizontalScroll';

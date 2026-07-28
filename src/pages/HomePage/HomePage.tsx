@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { FindBookButton, HorizontalScroll } from '../../components/ui/Button';
+import React, { useState, useEffect } from 'react';
+import { FindBookButton } from '../../components/ui/Button';
+import { HorizontalScroll } from '../../components/widgets/HorizontalScroll/HorizontalScroll';
 import { SearchInput, DateInput } from '../../components/ui/Input';
 import { BookCard, Book } from '../../components/ui/BookCard';
 import { useNavigate } from 'react-router-dom';
@@ -8,95 +9,8 @@ import Group1 from '../../assets/icons/book/Group.svg';
 import amorphousshape3 from '../../assets/icons/backgrounds/amorphousshape3.svg';
 import stackofbooks1 from '../../assets/icons/book/stackofbooks1.svg';
 import { LibrariesMap } from '../../components/widgets/LibrariesMap/LibrariesMap';
+import { api } from '../../api/axios.config';
 import styles from './HomePage.module.css';
-
-// Временные данные для "Выбор редакции"
-const editorBooks: Book[] = [
-    {
-        id: 1,
-        title: 'Война и мир',
-        author: 'Лев Толстой',
-        year: 1869,
-        description: 'Великий роман-эпопея о жизни русского общества в эпоху наполеоновских войн.',
-        library: 'Центральная библиотека',
-        coverImage: '',
-    },
-    {
-        id: 2,
-        title: 'Преступление и наказание',
-        author: 'Фёдор Достоевский',
-        year: 1866,
-        description: 'Социально-психологический роман о теории и её последствиях.',
-        library: 'Городская библиотека',
-        coverImage: '',
-    },
-    {
-        id: 3,
-        title: 'Анна Каренина',
-        author: 'Лев Толстой',
-        year: 1877,
-        description: 'Роман о трагической любви и поиске смысла жизни.',
-        library: 'Библиотека им. Пушкина',
-        coverImage: '',
-    },
-];
-
-const newBooks: Book[] = [
-  {
-    id: 4,
-    title: 'Дом, в котором...',
-    author: 'Мариам Петросян',
-    year: 2019,
-    description: 'Мистический роман-антиутопия о доме для детей-инвалидов, который становится их миром.',
-    library: 'Библиотека им. Петросян',
-    coverImage: '',
-  },
-  {
-    id: 5,
-    title: 'Психология влияния',
-    author: 'Роберт Чалдини',
-    year: 2021,
-    description: 'Классическая книга о том, как люди принимают решения и как на них влиять.',
-    library: 'Центральная библиотека',
-    coverImage: '',
-  },
-  {
-    id: 6,
-    title: 'Сто лет одиночества',
-    author: 'Габриэль Гарсиа Маркес',
-    year: 2020,
-    description: 'Всемирно известный роман о семье Буэндиа и вымышленном городе Макондо.',
-    library: 'Городская библиотека',
-    coverImage: '',
-  },
-  {
-    id: 7,
-    title: 'Искусство войны',
-    author: 'Сунь Цзы',
-    year: 2022,
-    description: 'Древнекитайский трактат о стратегии и тактике, актуальный и сегодня.',
-    library: 'Библиотека им. Сунь Цзы',
-    coverImage: '',
-  },
-  {
-    id: 8,
-    title: 'Маленькая жизнь',
-    author: 'Ханья Янагихара',
-    year: 2023,
-    description: 'Современный роман о дружбе, травме и любви, покоривший читателей по всему миру.',
-    library: 'Библиотека им. Янагихара',
-    coverImage: '',
-  },
-  {
-    id: 9,
-    title: 'Квантовая физика для чайников',
-    author: 'Стивен Хокинг',
-    year: 2024,
-    description: 'Доступное объяснение сложных концепций квантовой физики от великого ученого.',
-    library: 'Центральная библиотека',
-    coverImage: '',
-  },
-];
 
 export const HomePage: React.FC = () => {
     const navigate = useNavigate();
@@ -104,6 +18,50 @@ export const HomePage: React.FC = () => {
     const [authorQuery, setAuthorQuery] = useState('');
     const [dateStart, setDateStart] = useState('');
     const [dateEnd, setDateEnd] = useState('');
+    const [editorBooks, setEditorBooks] = useState<Book[]>([]);
+    const [newBooks, setNewBooks] = useState<Book[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    // Загружаем книги с бекенда
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                setLoading(true);
+                
+                // Получаем книги для "Выбор редакции"
+                const editorRes = await api.get('/common/books', {
+                    params: { limit: 6, sort: 'popular' }
+                });
+                
+                // Получаем новые поступления
+                const newRes = await api.get('/common/books', {
+                    params: { limit: 6, sort: 'new' }
+                });
+
+                // Преобразуем данные с бекенда в формат Book
+                const formatBooks = (data: any[]): Book[] => {
+                    return data.map((item: any) => ({
+                        id: item.id,
+                        title: item.title,
+                        author: item.author,
+                        year: item.year,
+                        description: item.description,
+                        library: item.library?.name || 'Библиотека',
+                        coverImage: item.coverImage || '',
+                    }));
+                };
+
+                setEditorBooks(formatBooks(editorRes.data));
+                setNewBooks(formatBooks(newRes.data));
+            } catch (error) {
+                console.error('Error fetching books:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBooks();
+    }, []);
 
     const handleSearch = () => {
         const title = searchQuery.trim();
@@ -112,7 +70,6 @@ export const HomePage: React.FC = () => {
         console.log('Поиск:', { title, author, dateStart, dateEnd });
         
         if (title || author) {
-            // Передаём параметры через query string
             const params = new URLSearchParams();
             if (title) params.set('title', title);
             if (author) params.set('author', author);
@@ -124,8 +81,16 @@ export const HomePage: React.FC = () => {
 
     const handleBook = (bookId: number) => {
         console.log('Бронирование книги:', bookId);
+        navigate(`/booking/${bookId}`);
     };
-    
+
+    if (loading) {
+        return (
+            <div className={styles.page}>
+                <div className={styles.loading}>Загрузка книг...</div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.page}>
@@ -233,7 +198,7 @@ export const HomePage: React.FC = () => {
                     </div>
                 </div>
             </section>
-{/* Новые поступление */}
+            {/* Новые поступление */}
             <section className={styles.editorSection}>
                 <h2 className={styles.sectionTitle}>Новые поступления</h2>
                 <HorizontalScroll title="">
@@ -243,7 +208,6 @@ export const HomePage: React.FC = () => {
                 </HorizontalScroll>
             </section>
             <LibrariesMap className={styles.homeLibrariesMap} />
-
         </div>
     );
 };

@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { LoginButton } from '../../ui/Button';
+import { LoginButton, ProfileButton } from '../../ui/Button';
 import { LoginModal } from '../../auth/LoginModal';
+import { useAuth } from '../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 
 export const Header: React.FC = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  const handleLogin = (email: string, password: string) => {
-    console.log('Вход:', { email, password });
-    // Здесь будет запрос к API
-  };
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleAboutClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -19,11 +18,27 @@ export const Header: React.FC = () => {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    window.location.reload();  // ← ПЕРЕЗАГРУЗКА ПОСЛЕ ВЫХОДА
+    navigate('/');
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
+  console.log('🔵 Header render, user:', user);
+
   return (
     <>
       <header className={styles.header}>
         <div className={styles.actions}>
-          <LoginButton onClick={() => setIsLoginModalOpen(true)} />
+          {user ? (
+            <ProfileButton onClick={handleProfileClick} />
+          ) : (
+            <LoginButton onClick={() => setIsLoginModalOpen(true)} />
+          )}
         </div>
         <div className={styles.logo}>ЛОГО</div>
         <nav className={styles.nav}>
@@ -36,7 +51,10 @@ export const Header: React.FC = () => {
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
-        onLogin={handleLogin}
+        onLogin={() => {
+          // Просто закрываем модалку, user обновится сам через useAuth
+          setIsLoginModalOpen(false);
+        }}
       />
     </>
   );

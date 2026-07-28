@@ -47,12 +47,12 @@
   flex-direction: column;
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
+  right: 0;
   background: #F0FFF1;
   border-radius: 16px;
   border: 1px solid #000000;
   z-index: 1000;
-  width: 100%;
+  width: 325px;
 }
 
 .selectedDateDisplay {

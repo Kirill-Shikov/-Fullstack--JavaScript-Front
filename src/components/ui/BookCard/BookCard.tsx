@@ -1,5 +1,6 @@
 import React from 'react';
 import { FindBookButton } from '../Button';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '../Icon';
 import styles from './BookCard.module.css';
 
@@ -9,7 +10,7 @@ export interface Book {
     author: string;
     year: number;
     description?: string;
-    library: string;
+    library: string | { id: number; name: string; address: string; description: string };
     coverImage?: string;
 }
 
@@ -32,6 +33,22 @@ export const BookCard: React.FC<BookCardProps> = ({
     buttonText = 'Забронировать',
     className = '',
 }) => {
+    const navigate = useNavigate();
+
+    const handleBook = () => {
+        if (onBook) {
+            onBook(book.id);
+        } else {
+            navigate(`/booking/${book.id}`);
+        }
+    };
+
+    // Получаем название библиотеки
+    const getLibraryName = (library: string | { id: number; name: string }): string => {
+        if (typeof library === 'string') return library;
+        return library?.name || 'Библиотека не указана';
+    };
+    
     return (
         <div className={`${styles.bookCard} ${styles[size]} ${className}`}>
           <div className={styles.wrapperBook}>
@@ -65,23 +82,23 @@ export const BookCard: React.FC<BookCardProps> = ({
                     <p className={styles.bookLibrary}>
                         <span className={styles.libraryLabel}>Библиотека:</span>
                         <Icon name="location" size={16} className={styles.locationIcon} />
-                        {book.library}
+                        {typeof book.library === 'string' ? book.library : book.library?.name || 'Библиотека не указана'}
                     </p>
                 )}
             </div>
             </div>
 
             {/* Кнопка бронирования */}
-        {onBook && (
+        
           <div className={styles.bookButtonWrapper}>
             <FindBookButton 
-              onClick={() => onBook(book.id)}
+              onClick={handleBook}
               className={styles.bookButton}
             >
               {buttonText}
             </FindBookButton>
           </div>
-            )}
+        
         </div>
     );
 };

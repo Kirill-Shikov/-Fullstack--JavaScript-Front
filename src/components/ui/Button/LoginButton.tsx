@@ -6,16 +6,18 @@ interface LoginButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   children?: React.ReactNode;
+  className?: string;
 }
 
 export const LoginButton: React.FC<LoginButtonProps> = ({ 
   onClick, 
   disabled = false,
-  children = 'Вход'
+  children = 'Вход',
+  className = '',
 }) => {
   return (
     <button 
-      className={`${styles.loginButton} ${styles.smallBtnShadow}`}
+      className={`${styles.loginButton} ${styles.smallBtnShadow} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >

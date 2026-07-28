@@ -2,43 +2,45 @@ import React, { useState } from 'react';
 import { Modal } from '../ui/Modal/Modal';
 import { FindBookButton } from '../ui/Button';
 import { Input, PasswordInput } from '../ui/Input';
+import { useAuth } from '../../hooks/useAuth';
 import styles from './LoginModal.module.css';
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onLogin?: (fullName: string, password: string) => void;
-  onRegister?: (fullName: string, email: string, password: string) => void;
+  onLogin?: () => void;
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({
   isOpen,
   onClose,
   onLogin,
-  onRegister,
 }) => {
-  const [isRegister, setIsRegister] = useState(false);
+  const { login, register, isLoading } = useAuth();
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [localLoading, setLocalLoading] = useState(false);
 
-  // Валидация email
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    // Валидация для регистрации
-    if (isRegister) {
-      if (!fullName || !email || !password || !confirmPassword) {
-        setError('Заполните все поля');
+    if (isRegisterMode) {
+      console.log('=== РЕГИСТРАЦИЯ ===');
+      console.log('ФИО:', fullName);
+      console.log('Почта:', email);
+      console.log('Пароль:', password);
+      
+      if (!fullName || !email || !password) {
+        setError('Пожалуйста, заполните все поля');
         return;
       }
 
@@ -52,31 +54,41 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         return;
       }
 
-      if (password !== confirmPassword) {
-        setError('Пароли не совпадают');
-        return;
+      setLocalLoading(true);
+      const result = await register({ 
+        email, 
+        password, 
+        name: fullName,
+        contactPhone: '' 
+      });
+      setLocalLoading(false);
+
+      if (result.success) {
+        onLogin?.();
+        onClose();
+      } else {
+        setError(result.error || 'Ошибка регистрации');
       }
     } else {
-      // Валидация для входа
+      // ===== ВХОД =====
       if (!fullName || !password) {
-        setError('Заполните все поля');
+        setError('Пожалуйста, заполните все поля');
         return;
       }
-    }
 
-    setIsLoading(true);
-    
-    setTimeout(() => {
-      console.log(isRegister ? 'Регистрация:' : 'Вход:', { fullName, email, password });
-      setIsLoading(false);
-      
-      if (isRegister) {
-        onRegister?.(fullName, email, password);
+      setLocalLoading(true);
+      const result = await login(fullName, password);
+      console.log('Результат входа:', result);
+      setLocalLoading(false);
+
+      if (result.success) {
+        window.location.reload();  // ← ПЕРЕЗАГРУЗКА!
+        onLogin?.();
+        onClose();
       } else {
-        onLogin?.(fullName, password);
+        setError('Неверный логин или пароль. Проверьте введённые данные и попробуйте снова.');
       }
-      onClose();
-    }, 1000);
+    }
   };
 
   const handleButtonClick = () => {
@@ -84,16 +96,17 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   };
 
   const toggleMode = () => {
-    setIsRegister(!isRegister);
+    setIsRegisterMode(!isRegisterMode);
     setError('');
     setFullName('');
     setEmail('');
     setPassword('');
-    setConfirmPassword('');
   };
 
+  const isLoadingState = isLoading || localLoading;
+  
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={isRegister ? 'Регистрация' : 'Вход'}>
+    <Modal isOpen={isOpen} onClose={onClose} title={isRegisterMode ? 'Регистрация' : 'Вход'}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.field}>
           <label className={styles.label}>ФИО</label>
@@ -105,72 +118,48 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           />
         </div>
 
-        {isRegister && (
-          <>
-            <div className={styles.field}>
-              <label className={styles.label}>Почта</label>
-              <Input
-                type="email"
-                placeholder="ivanov@mail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>Пароль</label>
-              <PasswordInput
-                placeholder="Минимум 6 символов"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>Подтверждение пароля</label>
-              <PasswordInput
-                placeholder="Повторите пароль"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-          </>
-        )}
-
-        {!isRegister && (
+        {isRegisterMode && (
           <div className={styles.field}>
-            <label className={styles.label}>Пароль</label>
-            <PasswordInput
-              placeholder="Введите пароль"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            <label className={styles.label}>Почта</label>
+            <Input
+              type="email"
+              placeholder="ivanov@mail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className={styles.input}
             />
           </div>
         )}
+
+        <div className={styles.field}>
+          <label className={styles.label}>Пароль</label>
+          <PasswordInput
+            placeholder="Введите пароль"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.input}
+          />
+        </div>
 
         {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.searchButtonWrapper}>
           <FindBookButton 
             onClick={handleButtonClick}
-            disabled={isLoading}
+            disabled={isLoadingState}
           >
-            {isLoading ? 'Загрузка...' : (isRegister ? 'Зарегистрироваться' : 'Войти')}
+            {isLoadingState ? 'Загрузка...' : (isRegisterMode ? 'Зарегистрироваться' : 'Войти')}
           </FindBookButton>
         </div>
 
         <p className={styles.registerHint}>
-          {isRegister ? 'У меня уже есть аккаунт!' : 'Нет аккаунта?'}
+          {isRegisterMode ? 'У меня уже есть аккаунт!' : 'Нет аккаунта?'}
           <button 
             type="button"
             className={styles.link}
             onClick={toggleMode}
           >
-            {isRegister ? ' Войти' : ' Зарегистрироваться'}
+            {isRegisterMode ? ' Войти' : ' Зарегистрироваться'}
           </button>
         </p>
       </form>

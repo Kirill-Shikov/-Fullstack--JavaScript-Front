@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Icon } from '../Icon';
+import { Icon } from '../../ui/Icon';
 import styles from './HorizontalScroll.module.css';
 
 interface HorizontalScrollProps {

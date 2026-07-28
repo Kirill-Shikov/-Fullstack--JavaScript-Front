@@ -1,0 +1,134 @@
+.page {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 0 322px 200px 321px;
+  gap: 160px;
+  background-color: #F6FFF7;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== ЗАГОЛОВКИ ===== */
+.title {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 64px;
+  text-align: center;
+}
+
+.block {
+  display: flex;
+  gap: 139px;
+}
+
+.blockBook {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 24px;
+}
+
+/* ===== ИНФОРМАЦИЯ О БРОНИРОВАНИИ ===== */
+.bookingInfo {
+  background: #D6EAD8;
+  border-radius: 32px;
+  padding: 32px  32px 53px;
+  margin-bottom: 24px;
+}
+
+.bookopen {
+  filter: brightness(0) saturate(100%) invert(68%) sepia(18%) saturate(390%) hue-rotate(78deg) brightness(92%) contrast(88%);
+}
+
+.infoRow {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.infoValue {
+  display: flex;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.infoName {
+  font-weight: 400;
+}
+
+.infoLabel {
+  display: flex;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+}
+
+.infoValue {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+
+/* ===== ПРИМЕЧАНИЕ ===== */
+.note {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+/* ===== КНОПКИ ===== */
+.buttonWrapper {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+.bookingsButton {
+  width: 293px;
+}
+
+
+/* ===== КАРТА ===== */
+
+.mapTitle {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.mapPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000000;
+  border-radius: 32px;
+}
+
+.mapIcon {
+    color: #6AA378;
+}

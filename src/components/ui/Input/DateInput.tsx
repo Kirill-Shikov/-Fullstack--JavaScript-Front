@@ -7,6 +7,8 @@ interface DateInputProps {
   onChange?: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 export const DateInput: React.FC<DateInputProps> = ({
@@ -14,6 +16,8 @@ export const DateInput: React.FC<DateInputProps> = ({
   onChange,
   placeholder = 'ДД.ММ.ГГГГ',
   disabled = false,
+  className = '',
+  style,
 }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const today = new Date();
@@ -134,7 +138,7 @@ export const DateInput: React.FC<DateInputProps> = ({
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${className}`} style={style}>
       <input
         type="text"
         className={styles.dateInput}
