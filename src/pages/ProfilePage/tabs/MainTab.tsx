@@ -1,9 +1,12 @@
-import React from 'react';
+// src/pages/ProfilePage/tabs/MainTab.tsx
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FindBookButton } from '../../../components/ui/Button';
 import { LoginButton } from '../../../components/ui/Button/LoginButton';
 import { UserStats } from '../../../hooks/useProfile';
-import styles from '../ProfilePage.module.css';
+import { SupportChatWidget } from '../../../components/widgets/SupportChat/SupportChatWidget';
+import { SupportChatButton } from '../../../components/ui/Button/SupportChatButton';
+import styles from '../tabs/MainTab.module.css';
 
 interface MainTabProps {
   stats: UserStats | null;
@@ -11,12 +14,16 @@ interface MainTabProps {
 
 export const MainTab: React.FC<MainTabProps> = ({ stats }) => {
   const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleToggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
 
   const handleGoToBookings = () => {
     navigate('/profile/books?filter=booked');
   };
 
-  // Значения по умолчанию, если stats === null
   const totalBooks = stats?.totalBooks ?? 0;
   const activeBookings = stats?.activeBookings ?? 0;
 
@@ -53,6 +60,17 @@ export const MainTab: React.FC<MainTabProps> = ({ stats }) => {
             Найти книгу
           </LoginButton>
         </div>
+      </div>
+
+      {/* Виджет поддержки */}
+      <div className={styles.chatWidgetWrapper}>
+        {isChatOpen && (
+          <SupportChatWidget 
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)} 
+          />
+        )}
+        <SupportChatButton onClick={handleToggleChat} />
       </div>
     </div>
   );

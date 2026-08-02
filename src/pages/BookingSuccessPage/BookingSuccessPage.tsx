@@ -1,47 +1,23 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { FindBookButton, LoginButton } from '../../components/ui/Button';
 import { Icon } from '../../components/ui/Icon';
+import { useBookingSuccess } from '../../hooks/useBookingSuccess';
 import styles from './BookingSuccessPage.module.css';
 import books1 from '../../assets/icons/book/books1.svg';
 import bookopen from '../../assets/icons/navigation/bookopen.svg';
 import mappin from '../../assets/icons/navigation/mappin.svg';
 
-interface BookingData {
-    bookTitle: string;
-    bookAuthor: string;
-    libraryName: string;
-    libraryAddress: string;
-    dateStart: string;
-    dateEnd: string;
-    userFullName?: string;
-}
-
-// Временные координаты (пока нет бэкенда)
-const getLibraryCoords = (libraryName: string): [number, number] => {
-    const coords: Record<string, [number, number]> = {
-        'Библиотека им. Тургенева': [37.637, 55.766],
-        'Библиотека им. Некрасова': [37.680, 55.772],
-        'Центральная городская библиотека': [37.680, 55.772],
-        'Центральная детская библиотека им. А.С. Пушкина': [37.642, 55.765],
-        'Библиотека № 151 имени Е.И. Чарушина': [37.581, 55.763],
-    };
-    return coords[libraryName] || [37.617, 55.755];
-};
-
 export const BookingSuccessPage: React.FC = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const bookingData = location.state as BookingData;
+    const {
+        bookingData,
+        mapUrl,
+        goHome,
+        goToBookings,
+    } = useBookingSuccess();
 
     if (!bookingData) {
-        navigate('/');
         return null;
     }
-
-    // ← ПОЛУЧАЕМ КООРДИНАТЫ И ФОРМИРУЕМ URL
-    const [lng, lat] = getLibraryCoords(bookingData.libraryName);
-    const mapUrl = `https://yandex.ru/map-widget/v1/?ll=${lng}%2C${lat}&z=16&pt=${lng}%2C${lat}%2Cflag`;
 
     return (
         <div className={styles.page}>
@@ -104,18 +80,18 @@ export const BookingSuccessPage: React.FC = () => {
 
                 {/* Кнопки */}
                 <div className={styles.buttonWrapper}>
-                    <FindBookButton 
-                        onClick={() => navigate('/')}
-                        className={styles.findButton}
-                    >
-                        Найти другую книгу
-                    </FindBookButton>
-                    <LoginButton
-                        onClick={() => navigate('/profile/books?filter=booked')}
-                        className={styles.bookingsButton}
-                    >
-                        Мои бронирования
-                    </LoginButton>
+                     <FindBookButton 
+                                onClick={goHome}
+                                className={styles.findButton}
+                            >
+                                Найти другую книгу
+                            </FindBookButton>
+                            <LoginButton
+                                onClick={goToBookings}
+                                className={styles.bookingsButton}
+                            >
+                                Мои бронирования
+                            </LoginButton>
                 </div>
                 </div>
                 </div>

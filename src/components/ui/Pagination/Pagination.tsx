@@ -7,16 +7,19 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  className = '',
 }) => {
   const { pageNumbers, isFirstPage, isLastPage, isDisabled } = usePagination({
     currentPage,
     totalPages,
+    
   });
 
   const handlePrev = () => {
@@ -32,7 +35,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className={styles.pagination}>
+    <div className={`${styles.pagination} ${className}`}>
       <div className={styles.wrapperPagination}>
       <PaginationPrevButton 
         onClick={handlePrev}

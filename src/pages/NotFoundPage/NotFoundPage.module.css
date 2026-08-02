@@ -1,0 +1,135 @@
+/* src/pages/NotFoundPage/NotFoundPage.module.css */
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #F6FFF7;
+  position: relative;
+  padding: 198px 320px 151px 1177px;
+  overflow: hidden;
+}
+
+.Iconcontainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.IconShape {
+  width: 1297px;
+  height: 788px;
+  position: absolute;
+  top: -245px;
+  left: -239px;
+  transform: rotate(35deg);
+}
+
+.IconsShape {
+  position: absolute;
+  width: 931px;
+  height: 308px;
+  top: -60px;
+  left: 1134px;
+  z-index: 2;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 60px;
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+/* --- ЛЕВАЯ ЧАСТЬ (ЛЕТАЮЩИЕ КНИЖКИ) --- */
+.illustrationSide {
+  position: absolute;
+
+}
+
+/* Базовый стиль для всех иконок книжек */
+.book1, .book2, .book3, .book4, .book5, .book6, .paper {
+  position: absolute;
+}
+
+/* Координаты и размеры книжек (строго из вашего макета) */
+.book1 { 
+  width: 153px; height: 184px; 
+  top: 57px; left: 362px; 
+  transform: rotate(-20deg); 
+}
+.book2 { 
+  width: 111px; height: 126px; 
+  top: 318px; left: 650px; 
+  transform: rotate(-16deg); 
+}
+.book3 { 
+  width: 137px; height: 183px; 
+  top: 201px; left: 521px; 
+  transform: rotate(12.41deg); 
+}
+.book4 { 
+  width: 233px; height: 205px; 
+  top: 673px; left: 592px; 
+  transform: rotate(-20.34deg); 
+}
+.paper { 
+  width: 140px; height: 174px; 
+  top: 286px; left: 338px; 
+  transform: rotate(-18.87deg); 
+}
+.book5 { 
+  width: 164px; height: 191px; 
+  top: 478px; left: 479px; 
+  transform: rotate(12.17deg); 
+}
+.book6 { 
+  width: 90px; height: 125px; 
+  top: 513px; left: 752px; 
+  transform: rotate(-4.25deg); 
+}
+
+/* --- ПРАВАЯ ЧАСТЬ (ТЕКСТ) --- */
+.contentSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  min-width: 320px;
+}
+
+.errorLabel {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 130%;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.errorCode {
+  font-size: 300px;
+  font-weight: 800;
+  color: #23685B;
+  line-height: 100%;
+  margin: 0;
+  letter-spacing: 6%;
+  margin-bottom: 26px;
+}
+
+.errorText {
+  font-size: 32px;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 62px;
+  line-height: 130%;
+  letter-spacing: 6%;
+}

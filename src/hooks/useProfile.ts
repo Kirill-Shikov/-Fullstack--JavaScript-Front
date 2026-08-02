@@ -1,14 +1,9 @@
-// src/hooks/useProfile.ts
 import { useState, useEffect } from 'react';
-import { api } from '../api/axios.config';
+import { getProfile, getUserStats, getUserBooks, updateProfile, uploadAvatar, deleteAvatar } from '../api/profile.api';
 
-export interface UserProfile {
-  id: number;
-  email: string;
-  name: string;
-  contactPhone?: string;
-  role: string;
-  avatar?: string | null; // ← добавляем avatar
+export interface UserStats {
+  totalBooks: number;
+  activeBookings: number;
 }
 
 export interface UserBooks {
@@ -16,82 +11,121 @@ export interface UserBooks {
   title: string;
   author: string;
   library: string;
-  dateStart: string;
-  dateEnd: string;
-  status: 'reserved' | 'active' | 'completed' | 'cancelled';
+  issueDate: string;
+  returnDate: string;
+  status: 'Забронирована' | 'Возвращена';
+  coverImage?: string;
 }
 
-export interface UserStats {
-  totalBooks: number;
-  activeBookings: number;
+export interface UserProfile {
+  id: number;
+  name: string;
+  email: string;
+  avatar?: string | null;
+  phone?: string;
+  registeredAt?: string;
 }
 
-export const useProfile = () => {
+interface UseProfileReturn {
+  profile: UserProfile | null;
+  stats: UserStats | null;
+  books: UserBooks[];
+  loading: boolean;
+  error: string | null;
+  fetchProfile: () => Promise<void>;
+  fetchStats: () => Promise<void>;
+  fetchBooks: () => Promise<void>;
+  updateProfile: (data: Partial<UserProfile>) => Promise<void>;
+  uploadAvatar: (file: File) => Promise<void>;
+  deleteAvatar: () => Promise<void>;
+}
+
+export const useProfile = (): UseProfileReturn => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [stats, setStats] = useState<UserStats | null>(null);
   const [books, setBooks] = useState<UserBooks[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchProfile = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null);
-
-      // Получаем данные пользователя из localStorage
-      const userStr = localStorage.getItem('user');
-      if (userStr) {
-        const user = JSON.parse(userStr);
-        setProfile({
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          contactPhone: user.contactPhone,
-          role: user.role,
-          avatar: user.avatar || null, // ← добавляем avatar
-        });
-      }
-
-      // Получаем бронирования пользователя
-      const rentalsRes = await api.get('/client/rentals');
-      
-      const rentals = rentalsRes.data || [];
-      const activeBookings = rentals.filter(
-        (r: any) => r.status === 'reserved' || r.status === 'active'
-      ).length;
-
-      setStats({
-        totalBooks: rentals.length,
-        activeBookings: activeBookings,
-      });
-
-      const formattedBooks = rentals.map((r: any) => ({
-        id: r.id,
-        title: r.book?.title || 'Название не указано',
-        author: r.book?.author || 'Автор не указан',
-        library: r.library?.name || 'Библиотека не указана',
-        dateStart: r.dateStart,
-        dateEnd: r.dateEnd,
-        status: r.status,
-      }));
-
-      setBooks(formattedBooks);
+      const data = await getProfile();
+      setProfile(data);
+      localStorage.setItem('user', JSON.stringify(data));
     } catch (err: any) {
-      console.error('Profile loading error:', err);
-      setError(err.response?.data?.message || 'Ошибка загрузки профиля');
+      setError(err.message || 'Ошибка загрузки профиля');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const data = await getUserStats();
+      setStats(data);
+    } catch {
+      // Ошибка загрузки статистики
+    }
+  };
+
+  const fetchBooks = async () => {
+    try {
+      const data = await getUserBooks();
+      setBooks(data);
+    } catch {
+      // Ошибка загрузки книг
+    }
+  };
+
+  const updateProfileHandler = async (data: Partial<UserProfile>) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const updated = await updateProfile(data);
+      setProfile(updated);
+      localStorage.setItem('user', JSON.stringify(updated));
+    } catch (err: any) {
+      setError(err.message || 'Ошибка обновления профиля');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const uploadAvatarHandler = async (file: File) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await uploadAvatar(file);
+      await fetchProfile();
+    } catch (err: any) {
+      setError(err.message || 'Ошибка загрузки аватара');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteAvatarHandler = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await deleteAvatar();
+      await fetchProfile();
+    } catch (err: any) {
+      setError(err.message || 'Ошибка удаления аватара');
+      throw err;
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      fetchData();
-    } else {
-      setLoading(false);
-      setError('Не авторизован');
-    }
+    fetchProfile();
+    fetchStats();
+    fetchBooks();
   }, []);
 
   return {
@@ -100,6 +134,11 @@ export const useProfile = () => {
     books,
     loading,
     error,
-    refetch: fetchData,
+    fetchProfile,
+    fetchStats,
+    fetchBooks,
+    updateProfile: updateProfileHandler,
+    uploadAvatar: uploadAvatarHandler,
+    deleteAvatar: deleteAvatarHandler,
   };
 };

@@ -117,6 +117,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 405px;
   padding: 16px 16px 39px 24px;
   border: 1px solid #000000;
   border-radius: 32px;
@@ -124,6 +125,7 @@
   background: #F0FFF1;
   box-shadow:  4px 4px #000000;
   gap: 16px;
+  
 }
 
 
@@ -165,6 +167,7 @@
 }
 
 .libraryCount {
+  display: flex;
   font-size: 16px;
   font-weight: 600;
   line-height: 120%;

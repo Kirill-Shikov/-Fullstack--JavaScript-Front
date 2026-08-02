@@ -10,10 +10,9 @@ export const api = axios.create({
     withCredentials: true,
 });
 
-// Перехватчик для добавления токена
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
-    if (token) {
+    if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

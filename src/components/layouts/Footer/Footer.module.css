@@ -10,7 +10,7 @@
   overflow: hidden;
   background-color: #F0FFF1;
   border: 1px solid #000000;
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0;
 }
 
 .footerLogo {

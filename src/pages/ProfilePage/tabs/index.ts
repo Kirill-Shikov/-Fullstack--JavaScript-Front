@@ -1,3 +1,9 @@
 export { MainTab } from './MainTab';
 export { BooksTab } from './BooksTab';
 export { ProfileTab } from './ProfileTab';
+export { AdminTab } from './AdminTab';
+export { AdminUsersTab } from './AdminUsersTab';
+export { AdminLibrariesTab } from './AdminLibrariesTab';
+export { UserDetailPage } from './UserDetailPage';
+export { LibraryDetailPage } from './LibraryDetailPage';
+export { AdminAddBookPage } from './AdminAddBookPage';

@@ -1,0 +1,101 @@
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  background: #F6FFF7;
+  padding: 40px 0 35px 0;
+}
+
+.greeting {
+  display: flex;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 64px;
+}
+
+.loading {
+  /* В CSS нет, но используется в компоненте */
+}
+
+.adminStatsRow {
+  background: #F6FFF7;
+  padding: 40px 0 35px 0;
+}
+
+.adminGreeting {
+  display: flex;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 64px;
+}
+
+.adminRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 239px;
+  gap: 32px;
+  align-items: start;
+}
+
+.adminStatCard {
+  display: flex;
+  flex-direction: column;
+  width: 421px;
+  padding: 32px;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  background-color: #F0FFF1;
+}
+
+.adminStatCardLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.adminStatLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 16px;
+}
+
+.adminStatNumber {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.adminActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48px;
+}
+
+.adminStatCardRight {
+  display: flex;
+  flex-direction: column;
+}
+
+.adminButton {
+  width: 208px;
+}
+
+.adminOpenListButton {
+  width: 208px;
+}
+
+.adminAddBookButton {
+  width: 208px;
+}

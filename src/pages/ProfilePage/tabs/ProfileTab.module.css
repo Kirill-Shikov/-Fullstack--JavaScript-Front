@@ -1,0 +1,122 @@
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  background: #F6FFF7;
+  padding: 40px 0 35px 0;
+}
+
+.greeting {
+  display: flex;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 64px;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 435px;
+}
+
+.field {
+  /* В CSS нет */
+}
+
+.label {
+  display: flex;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.input {
+  /* В CSS нет */
+}
+
+.avatarUpload {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.fileInput {
+  display: none;
+}
+
+.avatarPreview {
+  display: flex;
+  width: 120px;
+  height: 120px;
+  background-color: #FFFEF0;
+  border: 1px solid #000000;
+  border-radius: 16px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.avatarPreviewImg {
+  width: 90px;
+  height: 114px;
+}
+
+.avatarButtons {
+  display: flex;
+  gap: 33px;
+}
+
+.uploadButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+}
+
+.uploadButtonActive {
+  /* В CSS нет */
+}
+
+.iconBtn {
+  margin-right: 10px;
+}
+
+.iconBtnActive {
+  filter: brightness(0) saturate(100%) invert(58%) sepia(24%) saturate(600%) hue-rotate(90deg) brightness(95%) contrast(90%);
+}
+
+.deleteAvatarButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+}
+
+.iconBtnDelete {
+  filter: brightness(0) saturate(100%) invert(58%) sepia(24%) saturate(600%) hue-rotate(90deg) brightness(95%) contrast(90%);
+}
+
+.saveButton {
+  width: 296px;
+}
+
+.message {
+  /* В CSS нет */
+}

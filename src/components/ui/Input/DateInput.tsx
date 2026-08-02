@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from '../Icon';
+import { useDateInput } from '../../../hooks/useDateInput';
 import styles from './DateInput.module.css';
 
 interface DateInputProps {
@@ -19,99 +20,33 @@ export const DateInput: React.FC<DateInputProps> = ({
   className = '',
   style,
 }) => {
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const today = new Date();
-  const [selectedDate, setSelectedDate] = useState<Date>(today);
-  const [currentDate, setCurrentDate] = useState<Date>(today);
+  const {
+    isCalendarOpen,
+    selectedDate,
+    currentDate,
+    today,
+    setIsCalendarOpen,
+    handleChange,
+    handleCalendarToggle,
+    handleDateSelect,
+    handlePrevMonth,
+    handleNextMonth,
+    formatMonthYear,
+    getWeekDay,
+    getDaysInMonth,
+    getFirstDayOfMonth,
+  } = useDateInput(value, onChange);
 
-  const parseDate = (dateStr: string): Date | null => {
-    const parts = dateStr.split('.');
-    if (parts.length === 3) {
-      const day = parseInt(parts[0]);
-      const month = parseInt(parts[1]) - 1;
-      const year = parseInt(parts[2]);
-      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-        return new Date(year, month, day);
-      }
-    }
-    return null;
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const numericValue = e.target.value.replace(/\D/g, '');
-    if (numericValue.length > 8) return;
-    
-    let formatted = numericValue;
-    if (formatted.length >= 3) {
-      formatted = formatted.slice(0, 2) + '.' + formatted.slice(2);
-    }
-    if (formatted.length >= 6) {
-      formatted = formatted.slice(0, 5) + '.' + formatted.slice(5);
-    }
-    
-    onChange?.(formatted);
-
-    const parsed = parseDate(formatted);
-    if (parsed) {
-      setSelectedDate(parsed);
-      setCurrentDate(parsed);
-    }
-  };
-
-  const handleCalendarToggle = () => {
-    if (!disabled) {
-      setIsCalendarOpen(!isCalendarOpen);
-    }
-  };
-
-  const handleDateSelect = (day: number) => {
-    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-    setSelectedDate(date);
-    setCurrentDate(date);
-    const formattedDate = `${String(day).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
-    onChange?.(formattedDate);
-    setIsCalendarOpen(false);
-  };
-
-  const handlePrevMonth = () => {
-    const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-    setCurrentDate(newDate);
-  };
-
-  const handleNextMonth = () => {
-    const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-    setCurrentDate(newDate);
-  };
-
-  const formatMonthYear = (date: Date) => {
-    return date.toLocaleString('ru', { month: 'long', year: 'numeric' });
-  };
-
-  const getWeekDay = (date: Date) => {
-    const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-    return weekDays[date.getDay() === 0 ? 6 : date.getDay() - 1];
-  };
-
-  const getDaysInMonth = (year: number, month: number) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-
-  const getFirstDayOfMonth = (year: number, month: number) => {
-    const day = new Date(year, month, 1).getDay();
-    return day === 0 ? 6 : day - 1;
-  };
-
+  // Рендер календаря внутри компонента
   const renderCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth());
     const firstDay = getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth());
-    const days: JSX.Element[] = [];
+    const days: React.ReactNode[] = [];
 
-    // Пустые ячейки
     for (let i = 0; i < firstDay; i++) {
       days.push(<div key={`empty-${i}`} className={styles.emptyDay} />);
     }
 
-    // Дни месяца
     for (let day = 1; day <= daysInMonth; day++) {
       const isSelected = selectedDate && 
         day === selectedDate.getDate() &&
@@ -123,10 +58,14 @@ export const DateInput: React.FC<DateInputProps> = ({
         currentDate.getMonth() === today.getMonth() &&
         currentDate.getFullYear() === today.getFullYear();
       
+      let dayClassName = styles.calendarDay;
+      if (isSelected) dayClassName += ` ${styles.selectedDay}`;
+      if (isToday) dayClassName += ` ${styles.todayDay}`;
+      
       days.push(
         <button
           key={day}
-          className={`${styles.calendarDay} ${isSelected ? styles.selectedDay : ''} ${isToday ? styles.todayDay : ''}`}
+          className={dayClassName}
           onClick={() => handleDateSelect(day)}
         >
           {day}

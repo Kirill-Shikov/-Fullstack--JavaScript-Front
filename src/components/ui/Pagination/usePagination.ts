@@ -1,5 +1,3 @@
-// src/components/ui/Pagination/usePagination.ts
-
 interface UsePaginationProps {
   currentPage: number;
   totalPages: number;

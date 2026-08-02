@@ -21,6 +21,6 @@ export const AllIcons = {
   ...book,
   ...navigation,
   ...user,
-};
 
-export default AllIcons;
+  'book': navigation['bookopen'] || navigation['book'] || '', 
+};

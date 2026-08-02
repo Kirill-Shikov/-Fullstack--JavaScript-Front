@@ -7,19 +7,22 @@ interface FindBookButtonProps {
   disabled?: boolean;
   className?: string;
   children?: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export const FindBookButton: React.FC<FindBookButtonProps> = ({ 
   onClick, 
   disabled = false,
   className = '',
-  children = 'Найти книгу'
+  children = 'Найти книгу',
+  type = 'button',
 }) => {
   return (
     <button 
       className={`${styles.findBookButton} ${styles.smallBtnShadow} ${className}`}
       onClick={onClick}
       disabled={disabled}
+      type={type} 
     >
       {children}
     </button>

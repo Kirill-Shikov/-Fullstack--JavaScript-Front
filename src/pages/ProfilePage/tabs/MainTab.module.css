@@ -1,0 +1,78 @@
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  background: #F6FFF7;
+  padding: 40px 0 35px 0;
+}
+
+.greeting {
+  display: flex;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 64px;
+  
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  width: 515px;
+  background-color: #F0FFF1;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  padding: 32px;
+  
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+.statLabel {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+}
+
+.statNumber {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.actions {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  margin-left: 13px;
+}
+
+.primaryButton {
+  width: 208px;
+}
+
+.secondaryButton {
+  width: 208px;
+}
+
+.chatWidgetWrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}

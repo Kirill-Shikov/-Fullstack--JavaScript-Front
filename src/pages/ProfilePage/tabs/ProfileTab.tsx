@@ -1,9 +1,12 @@
-// src/pages/ProfilePage/tabs/ProfileTab.tsx
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Input, PasswordInput } from '../../../components/ui/Input';
-import { UserProfile, updateProfile, uploadAvatar } from '../../../api/profile.api';
+import { FindBookButton } from '../../../components/ui/Button/FindBookButton';
 import { Icon } from '../../../components/ui/Icon';
-import styles from '../ProfilePage.module.css';
+import { useProfileTab } from '../../../hooks/useProfileTab';
+import { UserProfile } from '../../../api/profile.api';
+import styles from '../tabs/ProfileTab.module.css'
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 interface ProfileTabProps {
   user: UserProfile | null;
@@ -11,137 +14,21 @@ interface ProfileTabProps {
 }
 
 export const ProfileTab: React.FC<ProfileTabProps> = ({ user, onUpdate }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [avatarLoading, setAvatarLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
-  // Заполняем форму при загрузке данных
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name || '',
-        email: user.email || '',
-        phone: user.phone || '',
-        password: '',
-      });
-    }
-  }, [user]);
-
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    setMessage(null);
-  };
-
-  // Обработчик для телефона - только цифры
-  const handlePhoneChange = (value: string) => {
-    // Удаляем все не-цифры
-    const onlyDigits = value.replace(/\D/g, '');
-    setFormData(prev => ({ ...prev, phone: onlyDigits }));
-    setMessage(null);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage(null);
-
-    try {
-      const updateData: Partial<UserProfile> = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-      };
-
-      if (formData.password) {
-        // @ts-ignore
-        updateData.password = formData.password;
-      }
-
-      await updateProfile(updateData);
-      
-      setMessage({ type: 'success', text: 'Профиль успешно обновлен!' });
-      
-      if (onUpdate) {
-        onUpdate();
-      }
-      
-      setFormData(prev => ({ ...prev, password: '' }));
-    } catch (err: any) {
-      setMessage({ 
-        type: 'error', 
-        text: err.response?.data?.message || 'Ошибка обновления профиля' 
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Загрузка аватара
-  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      setMessage({ type: 'error', text: 'Пожалуйста, выберите изображение' });
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      setMessage({ type: 'error', text: 'Размер файла не должен превышать 5MB' });
-      return;
-    }
-
-    setAvatarLoading(true);
-    setMessage(null);
-
-    try {
-      await uploadAvatar(file);
-      setMessage({ type: 'success', text: 'Аватар успешно обновлен!' });
-      if (onUpdate) {
-        onUpdate();
-      }
-    } catch (err: any) {
-      setMessage({ 
-        type: 'error', 
-        text: err.response?.data?.message || 'Ошибка загрузки аватара' 
-      });
-    } finally {
-      setAvatarLoading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
-
-  // Удаление аватара
-  const handleDeleteAvatar = async () => {
-    setShowDeleteConfirm(false);
-    setAvatarLoading(true);
-    setMessage(null);
-
-    try {
-      await updateProfile({ avatar: null });
-      setMessage({ type: 'success', text: 'Аватар удален!' });
-      if (onUpdate) {
-        onUpdate();
-      }
-    } catch (err: any) {
-      setMessage({ 
-        type: 'error', 
-        text: err.response?.data?.message || 'Ошибка удаления аватара' 
-      });
-    } finally {
-      setAvatarLoading(false);
-    }
-  };
+  const {
+    formData,
+    loading,
+    avatarLoading,
+    message,
+    displayAvatar,
+    hasAvatar,
+    fileInputRef,
+    handleChange,
+    handlePhoneChange,
+    handleSubmit,
+    handleAvatarUpload,
+    handleDeleteTempAvatar,
+    handleUploadClick,
+  } = useProfileTab(user, onUpdate);
 
   if (!user) {
     return (
@@ -154,12 +41,13 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ user, onUpdate }) => {
     );
   }
 
+  const avatarUrl = displayAvatar ? `${API_URL}${displayAvatar}` : null;
+
   return (
     <div className={styles.profilePage}>
       <h2 className={styles.greeting}>Личная информация</h2>
 
       <form onSubmit={handleSubmit} className={styles.profileInfo}>
-        {/* ФИО */}
         <div className={styles.field}>
           <label className={styles.label}>ФИО</label>
           <Input
@@ -170,7 +58,6 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ user, onUpdate }) => {
           />
         </div>
 
-        {/* Телефон - только цифры */}
         <div className={styles.field}>
           <label className={styles.label}>Телефон</label>
           <Input
@@ -182,7 +69,6 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ user, onUpdate }) => {
           />
         </div>
 
-        {/* Email */}
         <div className={styles.field}>
           <label className={styles.label}>Email</label>
           <Input
@@ -194,7 +80,6 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ user, onUpdate }) => {
           />
         </div>
 
-        {/* Пароль */}
         <div className={styles.field}>
           <label className={styles.label}>Пароль</label>
           <PasswordInput
@@ -205,79 +90,71 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ user, onUpdate }) => {
           />
         </div>
 
-        {/* Аватар */}
         <div className={styles.field}>
           <label className={styles.label}>Аватар</label>
           <div className={styles.avatarUpload}>
-            {user.avatar && (
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleAvatarUpload}
+              accept="image/*"
+              className={styles.fileInput}
+              id="avatar-upload"
+            />
+
+            {displayAvatar && (
               <div className={styles.avatarPreview}>
-                <img src={user.avatar} alt="Аватар" className={styles.avatarPreviewImg} />
+                <img 
+                  src={`http://localhost:3000${displayAvatar}`} 
+                  alt="Аватар" 
+                  className={styles.avatarPreviewImg}
+                  onError={(e) => {
+                    console.error('❌ Ошибка загрузки аватара:', displayAvatar);
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
               </div>
             )}
 
             <div className={styles.avatarButtons}>
-              
-              <label htmlFor="avatar-upload" className={styles.uploadButton}>
-                <Icon name="plus" size={20} />
-                {avatarLoading ? 'Загрузка...' : user.avatar ? 'Изменить фото' : 'Добавить фото'}
-              </label>
+              <button 
+                type="button" 
+                onClick={handleUploadClick}
+                className={`${styles.uploadButton} ${hasAvatar ? styles.uploadButtonActive : ''}`}
+                disabled={avatarLoading}
+              >
+                <Icon 
+                  name="paperclip" 
+                  size={24} 
+                  className={`${styles.iconBtn} ${hasAvatar ? styles.iconBtnActive : ''}`}
+                />
+                {avatarLoading ? 'Загрузка...' : hasAvatar ? 'Изменить фото' : 'Добавить фото'}
+              </button>
 
-              {user.avatar && (
-                <>
-                  <button 
-                    type="button" 
-                    onClick={() => setShowDeleteConfirm(true)}
-                    className={styles.deleteAvatarButton}
-                    disabled={avatarLoading}
-                  >
-                    <Icon name="trash-2" size={20} />
-                    Удалить фото
-                  </button>
-
-                  {showDeleteConfirm && (
-                    <div className={styles.confirmOverlay}>
-                      <div className={styles.confirmDialog}>
-                        <p>Вы уверены, что хотите удалить аватар?</p>
-                        <div className={styles.confirmButtons}>
-                          <button 
-                            type="button" 
-                            onClick={() => setShowDeleteConfirm(false)}
-                            className={styles.confirmCancel}
-                          >
-                            Отмена
-                          </button>
-                          <button 
-                            type="button" 
-                            onClick={handleDeleteAvatar}
-                            className={styles.confirmDelete}
-                          >
-                            Удалить
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </>
+              {hasAvatar && (
+                <button 
+                  type="button" 
+                  onClick={handleDeleteTempAvatar}
+                  className={styles.deleteAvatarButton}
+                  disabled={avatarLoading}
+                >
+                  <Icon name="x" size={24} className={styles.iconBtnDelete} />
+                  Удалить фото
+                </button>
               )}
             </div>
           </div>
         </div>
 
-        {/* Сообщение об успехе/ошибке */}
-        {message && (
-          <div className={`${styles.message} ${message.type === 'success' ? styles.success : styles.error}`}>
-            {message.text}
-          </div>
-        )}
+        
 
-        {/* Кнопка сохранения */}
-        <button 
-          type="submit" 
+        <FindBookButton 
           className={styles.saveButton}
           disabled={loading}
+          type="submit"
         >
           {loading ? 'Сохранение...' : 'Сохранить изменения'}
-        </button>
+        </FindBookButton>
       </form>
     </div>
   );

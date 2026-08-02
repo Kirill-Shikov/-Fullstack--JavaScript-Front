@@ -1,7 +1,5 @@
-// src/api/profile.api.ts
 import { api } from './axios.config';
 
-// Типы данных
 export interface UserProfile {
   id: number;
   name: string;
@@ -27,38 +25,38 @@ export interface UserStats {
   activeBookings: number;
 }
 
-// 1. Получить профиль пользователя
 export const getProfile = async (): Promise<UserProfile> => {
-  const response = await api.get('/users/profile');
-  return response.data;
+  const response = await api.get('/api/users/profile');
+  return response.data as UserProfile;
 };
 
-// 2. Получить статистику пользователя
 export const getUserStats = async (): Promise<UserStats> => {
-  const response = await api.get('/users/stats');
-  return response.data;
+  const response = await api.get('/api/users/stats');
+  return response.data as UserStats;
 };
 
-// 3. Получить книги пользователя
 export const getUserBooks = async (): Promise<UserBooks[]> => {
-  const response = await api.get('/users/books');
-  return response.data;
+  const response = await api.get('/api/users/books');
+  return response.data as UserBooks[];
 };
 
-// 4. Обновить профиль
 export const updateProfile = async (data: Partial<UserProfile>): Promise<UserProfile> => {
-  const response = await api.patch('/users/profile', data);
-  return response.data;
+  const response = await api.patch('/api/users/profile', data);
+  return response.data as UserProfile;
 };
 
-// 5. Загрузить аватар
 export const uploadAvatar = async (file: File): Promise<{ avatar: string }> => {
   const formData = new FormData();
   formData.append('avatar', file);
-  const response = await api.post('/users/avatar', formData, {
+  const response = await api.post('/api/users/avatar', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
-  return response.data;
+  return response.data as { avatar: string };
+};
+
+export const deleteAvatar = async (): Promise<{ success: boolean }> => {
+  const response = await api.delete('/api/users/avatar');
+  return response.data as { success: boolean };
 };

@@ -7,6 +7,7 @@ interface User {
     name: string;
     role: 'client' | 'admin' | 'manager';
     contactPhone?: string;
+    avatar?: string | null;
 }
 
 export const useAuth = () => {
@@ -17,18 +18,33 @@ export const useAuth = () => {
         const token = localStorage.getItem('token');
         const userData = localStorage.getItem('user');
         if (token && userData) {
-            setUser(JSON.parse(userData));
+            try {
+                const parsedUser = JSON.parse(userData);
+                setUser({
+                    ...parsedUser,
+                    avatar: parsedUser.avatar || null,
+                });
+            } catch (e) {
+                // Ошибка парсинга - просто игнорируем
+            }
         }
     }, []);
 
-    const login = async (name: string, password: string) => {
+    const login = async (login: string, password: string) => {
         setIsLoading(true);
         try {
-            const response = await authAPI.login({ name, password });
+            const response = await authAPI.login({ login, password });
             const { access_token, user } = response.data;
+            
+            const userWithAvatar = {
+                ...user,
+                avatar: user.avatar || null,
+            };
+            
             localStorage.setItem('token', access_token);
-            localStorage.setItem('user', JSON.stringify(user));
-            setUser(user);
+            localStorage.setItem('user', JSON.stringify(userWithAvatar));
+            setUser(userWithAvatar);
+            
             return { success: true };
         } catch (error: any) {
             return { success: false, error: error.response?.data?.message || 'Ошибка входа' };

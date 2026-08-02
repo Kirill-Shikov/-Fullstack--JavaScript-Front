@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '../Icon';
 import styles from './BookCard.module.css';
 
+/**
+ * Интерфейс книги
+ * library может быть как строкой (название), так и объектом с полем name
+ */
 export interface Book {
     id: number;
     title: string;
@@ -24,6 +28,10 @@ interface BookCardProps {
     className?: string;
 }
 
+/**
+ * Компонент карточки книги
+ * Отображает информацию о книге и кнопку для бронирования
+ */
 export const BookCard: React.FC<BookCardProps> = ({
     book,
     size = 'medium',
@@ -35,6 +43,10 @@ export const BookCard: React.FC<BookCardProps> = ({
 }) => {
     const navigate = useNavigate();
 
+    /**
+     * Обработчик клика по кнопке
+     * Если передан onBook - вызывает его, иначе переходит на страницу бронирования
+     */
     const handleBook = () => {
         if (onBook) {
             onBook(book.id);
@@ -43,11 +55,16 @@ export const BookCard: React.FC<BookCardProps> = ({
         }
     };
 
-    // Получаем название библиотеки
+    /**
+     * Получение названия библиотеки
+     * Поддерживает два формата: строка или объект
+     */
     const getLibraryName = (library: string | { id: number; name: string }): string => {
         if (typeof library === 'string') return library;
         return library?.name || 'Библиотека не указана';
     };
+    
+    const libraryDisplay = getLibraryName(book.library);
     
     return (
         <div className={`${styles.bookCard} ${styles[size]} ${className}`}>
@@ -82,23 +99,20 @@ export const BookCard: React.FC<BookCardProps> = ({
                     <p className={styles.bookLibrary}>
                         <span className={styles.libraryLabel}>Библиотека:</span>
                         <Icon name="location" size={16} className={styles.locationIcon} />
-                        {typeof book.library === 'string' ? book.library : book.library?.name || 'Библиотека не указана'}
+                        {libraryDisplay}
                     </p>
                 )}
             </div>
             </div>
 
-            {/* Кнопка бронирования */}
-        
-          <div className={styles.bookButtonWrapper}>
-            <FindBookButton 
-              onClick={handleBook}
-              className={styles.bookButton}
-            >
-              {buttonText}
-            </FindBookButton>
-          </div>
-        
+            <div className={styles.bookButtonWrapper}>
+                <FindBookButton 
+                    onClick={handleBook}
+                    className={styles.bookButton}
+                >
+                    {buttonText}
+                </FindBookButton>
+            </div>
         </div>
     );
 };

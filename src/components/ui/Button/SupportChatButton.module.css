@@ -1,0 +1,59 @@
+/* src/components/ui/Button/SupportChatButton.module.css */
+
+.wrapper {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 100;
+}
+
+.supportWidget {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    
+    background-color: #FFC33E; 
+    border: 1px solid #000000;
+    border-radius: 35px;
+    
+    box-shadow: 2px 2px #000000;
+
+    cursor: pointer;
+    position: relative;
+}
+
+
+/* Состояние, когда кнопка нажата (открыт чат) */
+.supportWidget.active {
+    
+    background-color: #FFC33E;
+}
+
+/* Иконка внутри */
+.supportWidget svg {
+    color: #000000;
+}
+
+/* КРАСНЫЙ БЕЙДЖИК (как на 2-м макете) */
+.unreadBadge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 24px;
+    height: 24px;
+    background-color: #FF2125; /* Красный цвет */
+    border: 1px solid #000000; /* Белая обводка, чтобы отделить от фона */
+    border-radius: 19px; /* Идеальный круг */
+    
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 100%;
+    color: #000000;
+}

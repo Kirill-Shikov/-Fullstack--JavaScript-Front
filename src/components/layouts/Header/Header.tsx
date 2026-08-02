@@ -1,41 +1,34 @@
-import React, { useState } from 'react';
-import { LoginButton, ProfileButton } from '../../ui/Button';
+import React from 'react';
+import { LoginButton, ProfileButton } from '../../ui';
 import { LoginModal } from '../../auth/LoginModal';
-import { useAuth } from '../../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useHeader } from '../../../hooks/useHeader';
+import { useAuth } from '../../../hooks/useAuth'; 
 import styles from './Header.module.css';
 
 export const Header: React.FC = () => {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user: authUser } = useAuth();
+  const {
+    isLoginModalOpen,
+    setIsLoginModalOpen,
+    handleAboutClick,
+    handleLogout,
+    handleProfileClick,
+    handleLoginSuccess,
+  } = useHeader();
 
-  const handleAboutClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const aboutSection = document.getElementById('about');
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleLogout = () => {
-    logout();
-    window.location.reload();  // ← ПЕРЕЗАГРУЗКА ПОСЛЕ ВЫХОДА
-    navigate('/');
-  };
-
-  const handleProfileClick = () => {
-    navigate('/profile');
-  };
-
-  console.log('🔵 Header render, user:', user);
+  // Используем authUser вместо user из useHeader
+  const currentUser = authUser;
 
   return (
     <>
       <header className={styles.header}>
         <div className={styles.actions}>
-          {user ? (
-            <ProfileButton onClick={handleProfileClick} />
+          {currentUser ? (
+            <ProfileButton 
+              onClick={handleProfileClick}
+              avatar={currentUser?.avatar || null}
+              name={currentUser?.name || ''}
+            />
           ) : (
             <LoginButton onClick={() => setIsLoginModalOpen(true)} />
           )}
@@ -52,7 +45,6 @@ export const Header: React.FC = () => {
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
         onLogin={() => {
-          // Просто закрываем модалку, user обновится сам через useAuth
           setIsLoginModalOpen(false);
         }}
       />

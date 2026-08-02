@@ -1,5 +1,5 @@
 import React from 'react';
-import { SocialIcon } from '../../ui/SocialIcon';
+import { SocialIcon } from '../../ui/SocialIcon/SocialIcon';
 import styles from './Footer.module.css';
 
 import AmorphousLeft from '../../../assets/icons/backgrounds/amorphous shape 2.svg';

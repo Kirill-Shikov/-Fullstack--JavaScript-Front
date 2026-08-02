@@ -8,6 +8,10 @@ interface HorizontalScrollProps {
   scrollAmount?: number;
 }
 
+/**
+ * Компонент горизонтальной прокрутки
+ * Позволяет прокручивать контент с помощью кнопок и точек навигации
+ */
 export const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
   children,
   title,
@@ -19,6 +23,10 @@ export const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [totalDots, setTotalDots] = useState(0);
 
+  /**
+   * Проверка состояния прокрутки
+   * Определяет, показывать ли кнопки влево/вправо
+   */
   const checkScroll = () => {
     const container = containerRef.current;
     if (!container) return;
@@ -31,12 +39,14 @@ export const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
     setCurrentIndex(index);
   };
 
+  // Обновляем состояние при изменении детей и ресайзе
   useEffect(() => {
     checkScroll();
     window.addEventListener('resize', checkScroll);
     return () => window.removeEventListener('resize', checkScroll);
   }, [children]);
 
+  // Вычисляем количество точек
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;

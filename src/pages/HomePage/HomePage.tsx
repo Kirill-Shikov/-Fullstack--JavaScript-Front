@@ -1,88 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FindBookButton } from '../../components/ui/Button';
 import { HorizontalScroll } from '../../components/widgets/HorizontalScroll/HorizontalScroll';
 import { SearchInput, DateInput } from '../../components/ui/Input';
-import { BookCard, Book } from '../../components/ui/BookCard';
-import { useNavigate } from 'react-router-dom';
+import { BookCard } from '../../components/ui/BookCard';
+import { LibrariesMap } from '../../components/widgets/LibrariesMap/LibrariesMap';
+import { useHomePage } from '../../hooks/useHomePage';
 import Group from '../../assets/icons/backgrounds/Group1.svg';
 import Group1 from '../../assets/icons/book/Group.svg';
 import amorphousshape3 from '../../assets/icons/backgrounds/amorphousshape3.svg';
 import stackofbooks1 from '../../assets/icons/book/stackofbooks1.svg';
-import { LibrariesMap } from '../../components/widgets/LibrariesMap/LibrariesMap';
-import { api } from '../../api/axios.config';
 import styles from './HomePage.module.css';
 
 export const HomePage: React.FC = () => {
-    const navigate = useNavigate();
-    const [searchQuery, setSearchQuery] = useState('');
-    const [authorQuery, setAuthorQuery] = useState('');
-    const [dateStart, setDateStart] = useState('');
-    const [dateEnd, setDateEnd] = useState('');
-    const [editorBooks, setEditorBooks] = useState<Book[]>([]);
-    const [newBooks, setNewBooks] = useState<Book[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    // Загружаем книги с бекенда
-    useEffect(() => {
-        const fetchBooks = async () => {
-            try {
-                setLoading(true);
-                
-                // Получаем книги для "Выбор редакции"
-                const editorRes = await api.get('/common/books', {
-                    params: { limit: 6, sort: 'popular' }
-                });
-                
-                // Получаем новые поступления
-                const newRes = await api.get('/common/books', {
-                    params: { limit: 6, sort: 'new' }
-                });
-
-                // Преобразуем данные с бекенда в формат Book
-                const formatBooks = (data: any[]): Book[] => {
-                    return data.map((item: any) => ({
-                        id: item.id,
-                        title: item.title,
-                        author: item.author,
-                        year: item.year,
-                        description: item.description,
-                        library: item.library?.name || 'Библиотека',
-                        coverImage: item.coverImage || '',
-                    }));
-                };
-
-                setEditorBooks(formatBooks(editorRes.data));
-                setNewBooks(formatBooks(newRes.data));
-            } catch (error) {
-                console.error('Error fetching books:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchBooks();
-    }, []);
-
-    const handleSearch = () => {
-        const title = searchQuery.trim();
-        const author = authorQuery.trim();
-        
-        console.log('Поиск:', { title, author, dateStart, dateEnd });
-        
-        if (title || author) {
-            const params = new URLSearchParams();
-            if (title) params.set('title', title);
-            if (author) params.set('author', author);
-            navigate(`/search?${params.toString()}`);
-        } else {
-            navigate('/search');
-        }
-    };
-
-    const handleBook = (bookId: number) => {
-        console.log('Бронирование книги:', bookId);
-        navigate(`/booking/${bookId}`);
-    };
+    const {
+        searchQuery,
+        authorQuery,
+        dateStart,
+        dateEnd,
+        editorBooks,
+        newBooks,
+        loading,
+        setSearchQuery,
+        setAuthorQuery,
+        setDateStart,
+        setDateEnd,
+        handleSearch,
+        handleBook,
+    } = useHomePage();
 
     if (loading) {
         return (

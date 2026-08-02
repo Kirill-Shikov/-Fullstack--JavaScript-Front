@@ -83,6 +83,7 @@
   color: #000000;
   border: none;
   background-color: inherit;
+  align-items: center;
 }
 
 .navItem:hover,
