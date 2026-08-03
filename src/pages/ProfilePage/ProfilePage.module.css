@@ -1,35 +1,987 @@
-.loading {
+.profilePage {
   display: flex;
+  flex-direction: column;
+  background: #F6FFF7;
+  padding: 40px 0 35px 0;
+}
+
+.greeting {
+  display: flex;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 64px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  width: 515px;
+  background-color: #F0FFF1;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  padding: 32px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+.statNumber {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.actions {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  margin-left: 13px;
+}
+
+.secondaryButton,
+.primaryButton {
+  width: 208px;
+}
+
+/*BookTabs*/
+
+.filterButtons {
+  display: flex;
+  gap: 32px;
+}
+
+.filterButton {
+  display: flex;
+  background-color: inherit;
   justify-content: center;
   align-items: center;
-  padding: 40px;
-  font-size: 18px;
+  gap: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  border-bottom: 1px solid transparent;
+  margin-bottom: 24px;
+}
+
+.filterButton.filterActive,
+.filterButton:hover,
+.filterButton.active {
+  border-bottom: 1px solid #F49425;
+  filter: invert(60%) sepia(70%) saturate(1000%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.filterIcon {
+  width: 24px;
+  height: 24px;
+}
+
+
+
+/* ===== ТАБЛИЦА ===== */
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 16px;
+  border: 1px solid #000000;
+  width: 872px;
+}
+
+.bookTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bookTable thead {
+  background: #D6EAD8;
+}
+
+.bookTable th {
+  padding: 16px 16px 16px 0;
+  text-align: left;
+  font-weight: 600;
+  font-size: 16px;
   color: #93A497;
 }
 
-.error {
+.bookTable th:first-child {
+  padding-left: 16px;
+}
+
+
+.bookTable td {
+  padding: 16px 0;
+  vertical-align: middle;
+}
+
+/* Колонки */
+.cellId {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #93A497;
+  width: 46px;
+  height: 157px;
+  text-align: center;
+}
+
+.cellCover {
+  width: 95px;
+  height: 157px;
+}
+
+/* Обложка книги */
+.bookCoverPlaceholder {
+  width: 80px;
+  height: 125px;
+}
+
+.cellBook {
+  width: 250px;
+  height: 157px;
+}
+
+/* Название и автор */
+
+.bookTitle,
+.bookAuthorTable {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+  color: #000000;
+}
+
+/*библиотека , дата*/
+.cellDate,
+.cellLibrary {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+  color: #000000;
+}
+
+.cellStatus {
+  text-align: center;
+}
+
+/* Забронирована */
+.rowBooked {
+  background-color: #FFFEF0;
+}
+
+/* Возвращена */
+.rowReturned {
+  background-color: #F0FFF1;
+}
+
+/*без данных*/
+
+.wrapperEmptyState {
+  display: flex;
+  width: 421px;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  background-color: #F0FFF1;
+  border: 1px solid #000000;
+  border-radius: 32px;
+}
+
+.emptyState {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  color: #000000;
+}
+
+.secondaryButton {
+  width: 296px;
+}
+
+/*профиль*/
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 435px;
+}
+
+.label {
+  display: flex;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.avatarUpload {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 3px;
+}
+
+.uploadButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+}
+
+.iconBtn {
+  margin-right: 10px;
+}
+
+.saveButton {
+  width: 296px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.avatarUpload {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: start;
+}
+
+.avatarPreview {
+  display: flex;
+  width: 120px;
+  height: 120px;
+  background-color: #FFFEF0;
+  border: 1px solid #000000;
+  border-radius: 16px;
+  justify-content: center;
   align-items: center;
-  padding: 40px;
+  margin-bottom: 16px;
+}
+
+.avatarPreviewImg {
+  width: 90px;
+  height: 114px;
+}
+
+.avatarButtons {
+  display: flex;
+  gap: 33px;
+}
+
+.deleteAvatarButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+}
+
+.iconBtnDelete {
+  filter: brightness(0) saturate(100%) invert(58%) sepia(24%) saturate(600%) hue-rotate(90deg) brightness(95%) contrast(90%);
+}
+
+.iconBtnActive {
+  filter: brightness(0) saturate(100%) invert(58%) sepia(24%) saturate(600%) hue-rotate(90deg) brightness(95%) contrast(90%);
+}
+
+.adminStatsRow {
+  
+  background: #F6FFF7;
+  padding: 40px 0 35px 0;
+}
+
+.adminRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 239px;
+  gap: 32px;
+  align-items: start;
+}
+
+.adminGreeting {
+  display: flex;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 64px;
+}
+
+.adminStatCard {
+  display: flex;
+  flex-direction: column;
+  width: 421px;
+  padding: 32px;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  background-color: #F0FFF1;
+  
+}
+.adminStatCardLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.adminStatCardRight {
+  display: flex;
+  flex-direction: column; 
+}
+
+.adminStatLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 16px;
+}
+
+.adminStatNumber {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.adminActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48px;
+}
+
+/*админ панель пользователи*/
+
+.wrapperprofile {
+  display: flex;
+  gap: 302px;
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.searchIcon {
+  width: 24px;
+  height: 24px;
+  top: 15px;
+  left: 830px;
+  position: absolute;
+  z-index: 2;
+}
+
+.filterWrapper {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+/*таблица пользователей*/
+
+.cellIdP {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #93A497;
+  width: 46px;
+  height: 86px;
+  text-align: center;
+}
+
+
+
+
+.userContactInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 67px 16px 10px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+  color: #000000;
+}
+
+.userEmail {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+  color: #93A497;
+}
+
+.userPhone {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+  color: #93A497;
+}
+
+.lastActivity {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+  color: #000000;
+}
+
+.activeBookings {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 130%;
+  color: #000000;
+}
+
+.chatButton {
+  
+  background-color: inherit;
+  border: none;
+}
+
+/* ===== ЧАТ С ИНДИКАТОРОМ ===== */
+.chatButton {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unreadDot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0 40px;
+}
+
+
+/* ===== ПОПАП ДОБАВЛЕНИЯ ПОЛЬЗОВАТЕЛЯ ===== */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #F6FFF7;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  padding: 32px;
+  width: 841px;
+  position: relative;
+}
+
+.modalTitle {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+.iconX {
+  display: flex;
+  position: absolute;
+  top: 24px;
+  left: 793px;
+
+}
+
+.modalFields {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+
+.modalField label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.modalRow {
+  display: flex;
+  gap: 32px;
+}
+
+.modalRow label {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  
+  
+}
+
+.modalFieldHalf {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.radioCard {
+  display: flex;
   gap: 16px;
 }
 
-.error p {
-  font-size: 18px;
-  color: #FF2125;
+.radioCircle {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000000;
+  border-radius: 15px;
+  background-color: inherit;
+   justify-content: center;
+  align-items: center;
 }
 
-.error button {
-  padding: 12px 24px;
+
+
+.radioDot {
+  display: flex;
+  width: 12px;
+  height: 12px;
+  background: #6AA378;
+  border: 1px solid #000000;
+  border-radius: 50%;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+.modalCancel,
+.modalSubmit {
+  width: 296px;
+}
+
+.userRow {
+  cursor: pointer;
+}
+
+.userRow:hover {
+  background-color: #6AA378
+}
+
+.userRow:active {
+  background-color: #6AA378
+}
+
+/*информация пользователя*/
+.userDetailPage {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.userDetailHeader {
+  display: flex;
+  margin-bottom: 64px;
+  justify-content: space-between;
+}
+
+.userDetailName {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+}
+
+.backButton {
+  width: 116px;
+}
+
+.userDetailInfo {
+  display: flex;
+  flex-direction: column;
+  width: 515px;
+  border: 1px solid #000000;
+  border-radius: 32px;
+  background-color: #F0FFF1;
+  padding: 32px;
+}
+
+.titlelInfo {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 24px;
+}
+.blockinfo {
+  display: flex;
+  gap: 24px;
+}
+
+.userDetailRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #000000;
+  margin-bottom: 40px;
+}
+
+.userDetailLabel {
+  color: #93A497;
+}
+
+.userDetailActions {
+  display: flex;
+  gap: 32px;
+}
+
+.userDetailEditBtn {
+  width: 178px;
+}
+
+.userDetailDeleteBtn {
+  width: 241px;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.modalSelect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px 24px;
+  background-color: #FFFEF0;
   border: 1px solid #000000;
   border-radius: 16px;
-  background-color: #F0FFF1;
-  cursor: pointer;
+  color: #93A497; 
   font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  box-sizing: border-box;
+  margin-bottom: 40px;
 }
 
-.error button:hover {
-  background-color: #D6EAD8;
+.modalSelect.filled {
+  color: #000000;
 }
+
+.chevrondownIcon {
+  width: 20px;
+  height: 20px;
+  color: #000000;
+}
+
+/* Выпадающий список */
+.dropdownList {
+  position: absolute;
+  top: calc(100% + 13px); /* Отступ 8px от основного инпута, как в макете (gap 16px между элементами) */
+  left: 0;
+  width: 100%;
+  background-color: #FFFEF0;
+  border: 1px solid #000000;
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Пункты списка */
+.dropdownItem {
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: #000000;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #D6EAD8; /* Цвет при наведении (можно заменить на ваш) */
+}
+
+.dateText {
+    color: #93A497!important;
+    background-color: #FFFEF0;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+}
+
+.modalCancel {
+  width: 193px;
+}
+
+.modalSubmit {
+  width: 270px;
+}
+
+/* ================= БЛОК КНИГ ПОЛЬЗОВАТЕЛЯ ================= */
+
+.userBooksSection {
+  margin-top: 40px;
+  margin-bottom: 39px;
+  padding: 0 4px;
+}
+
+.booksTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #000;
+}
+
+/* Фильтры (вкладки) */
+.booksFilters {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #E5E5E5;
+    padding-bottom: 8px;
+}
+
+.filterTab {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.filterTab:hover {
+    color: #000;
+}
+
+.filterTab.activeFilter {
+    color: #000;
+}
+
+.filterTab.activeFilter::after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #FFC33E;
+}
+
+.filterIcon {
+    color: #6B7280;
+}
+
+.filterTab.activeFilter .filterIcon {
+    color: #000;
+}
+
+/* Таблица */
+.booksTableWrapper {
+    border: 1px solid #000;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #FFFEF0;
+}
+
+.booksTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.booksTable thead {
+    background-color: #F4FAF4;
+    border-bottom: 1px solid #000;
+}
+
+.booksTable thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+    color: #6B7C6B;
+    font-size: 13px;
+}
+
+.booksTable tbody tr {
+    border-bottom: 1px solid #D6EAD8;
+    transition: background-color 0.2s ease;
+}
+
+.booksTable tbody tr:last-child {
+    border-bottom: none;
+}
+
+.booksTable tbody tr:hover {
+    background-color: #F9FDF9;
+}
+
+.booksTable tbody td {
+    padding: 16px 16px;
+    color: #000;
+    vertical-align: middle;
+}
+
+.bookTitleAuthor {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.bookTitle {
+    font-weight: 500;
+}
+
+.bookAuthor {
+    font-size: 13px;
+    color: #6B7C6B;
+}
+
+.bookLibrary {
+    font-size: 13px;
+    color: #23685B;
+}
+
+.statusActive {
+    color: #23685B;
+}
+
+.statusReturned {
+    color: #6B7C6B;
+}
+
+.booksLoading, .booksEmpty {
+    padding: 20px 16px;
+    text-align: center;
+    color: #93A497;
+    font-size: 14px;
+}
+
+.bookTable tbody tr:nth-child(odd) {
+  background-color: #F0FFF1;
+}
+
+.bookTable tbody tr:nth-child(even) {
+  background-color: #FFFEF0;
+}
+
+.chatWidgetWrapper {
+  position: relative;
+  top: -103px;
+  left: 1050px;
+}
+

@@ -24,7 +24,11 @@ interface UseSupportChatReturn {
     messagesEndRef: React.RefObject<HTMLDivElement>;
 }
 
-export const useSupportChat = (isOpen: boolean, userId?: number | string): UseSupportChatReturn => {
+export const useSupportChat = (
+    isOpen: boolean, 
+    userId?: number | string,
+    onRead?: () => void  // ← ДОБАВИТЬ
+): UseSupportChatReturn => {
     const { user } = useAuth();
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [inputValue, setInputValue] = useState('');
@@ -33,7 +37,6 @@ export const useSupportChat = (isOpen: boolean, userId?: number | string): UseSu
     const socketRef = useRef<Socket | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Очистка при закрытии
     useEffect(() => {
         if (!isOpen) {
             setMessages([]);
@@ -59,7 +62,6 @@ export const useSupportChat = (isOpen: boolean, userId?: number | string): UseSu
         socket.on('newMessage', (data) => {
             if (data.supportRequestId !== requestId) return;
             
-            // ✅ ПРОВЕРКА НА ДУБЛИКАТ
             setMessages((prev) => {
                 if (prev.some(m => m.id === data.id)) return prev;
                 
@@ -137,7 +139,7 @@ export const useSupportChat = (isOpen: boolean, userId?: number | string): UseSu
                     
                     setMessages(formattedMessages);
 
-                    // ✅ ОТМЕТКА ПРОЧТЕНИЯ
+                    // ОТМЕТКА ПРОЧТЕНИЯ И ВЫЗОВ КОЛБЭКА
                     const hasUnread = messagesRes.data.some(
                         (msg: any) => !msg.readAt && msg.authorId !== user?.id
                     );
@@ -148,6 +150,11 @@ export const useSupportChat = (isOpen: boolean, userId?: number | string): UseSu
                                 createdBefore: new Date().toISOString()
                             });
                             console.log('✅ Сообщения отмечены как прочитанные');
+                            
+                            // ВЫЗЫВАЕМ КОЛБЭК ДЛЯ ОБНОВЛЕНИЯ СТАТИСТИКИ
+                            if (onRead) {
+                                onRead();
+                            }
                         } catch (error) {
                             console.error('❌ Ошибка отметки прочитанных:', error);
                         }
@@ -164,14 +171,12 @@ export const useSupportChat = (isOpen: boolean, userId?: number | string): UseSu
         };
 
         loadChat();
-    }, [isOpen, userId, user]);
+    }, [isOpen, userId, user, onRead]);
 
-    // Автоскролл
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // Отправка сообщения
     const handleSendMessage = async () => {
         if (!inputValue.trim()) return;
 
@@ -192,7 +197,6 @@ export const useSupportChat = (isOpen: boolean, userId?: number | string): UseSu
 
         if (!currentRequestId) return;
 
-        // ✅ НЕ ДОБАВЛЯЕМ ЛОКАЛЬНО - ждем WebSocket
         try {
             await supportAPI.sendMessage(currentRequestId, { text: inputValue.trim() });
             setInputValue('');

@@ -176,15 +176,27 @@ export const UserDetailPage: React.FC = () => {
             </div>
 
              {/* Виджет поддержки */}
-      <div className={styles.chatWidgetWrapper}>
-        {isChatOpen && (
-          <SupportChatWidget 
-            isOpen={isChatOpen}
-            onClose={() => setIsChatOpen(false)} 
-          />
-        )}
-        <SupportChatButton onClick={handleToggleChat} />
-      </div>
+<div className={styles.chatWidgetWrapper}>
+    {isChatOpen && (
+        <div className={styles.chatContainer}>
+            <SupportChatWidget
+    isOpen={isChatOpen}
+    onClose={() => {
+        setIsChatOpen(false);
+        fetchUser();
+       
+        window.location.reload();
+    }}
+    userId={user?.id}
+/>
+        </div>
+    )}
+    <SupportChatButton 
+        onClick={handleToggleChat}
+        hasUnread={user?.hasUnreadMessages}
+        isActive={isChatOpen}
+    />
+</div>
 
             {/* Модалка редактирования */}
             {isEditModalOpen && (

@@ -7,9 +7,15 @@ interface SupportChatWidgetProps {
     isOpen: boolean;
     onClose: () => void;
     userId?: number | string;
+    onRead?: () => void;  // ← ДОБАВИТЬ
 }
 
-export const SupportChatWidget: React.FC<SupportChatWidgetProps> = ({ isOpen, onClose, userId }) => {
+export const SupportChatWidget: React.FC<SupportChatWidgetProps> = ({ 
+    isOpen, 
+    onClose, 
+    userId,
+    onRead,  // ← ДОБАВИТЬ
+}) => {
     const {
         messages,
         inputValue,
@@ -19,9 +25,10 @@ export const SupportChatWidget: React.FC<SupportChatWidgetProps> = ({ isOpen, on
         handleSendMessage,
         handleKeyDown,
         messagesEndRef,
-    } = useSupportChat(isOpen, userId); 
+    } = useSupportChat(isOpen, userId, onRead);  // ← передаём onRead
 
     if (!isOpen) return null;
+    
     return (
         <div className={styles.widgetContainer}>
             <div className={styles.widgetHeader}>

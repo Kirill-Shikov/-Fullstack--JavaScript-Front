@@ -6,6 +6,7 @@ export interface UserProfile {
   email: string;
   avatar?: string | null;
   phone?: string;
+  contactPhone?: string; 
   registeredAt?: string;
 }
 

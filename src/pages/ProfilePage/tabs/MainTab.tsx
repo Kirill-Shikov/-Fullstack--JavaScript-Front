@@ -1,4 +1,3 @@
-// src/pages/ProfilePage/tabs/MainTab.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FindBookButton } from '../../../components/ui/Button';

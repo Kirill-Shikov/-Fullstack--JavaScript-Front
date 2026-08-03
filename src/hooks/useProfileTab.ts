@@ -6,6 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 // Расширяем интерфейс для пароля
 interface UpdateProfileData extends Partial<UserProfile> {
     password?: string;
+    contactPhone?: string;
 }
 
 interface UseProfileTabReturn {
@@ -50,7 +51,7 @@ export const useProfileTab = (user: UserProfile | null, onUpdate?: () => void): 
             setFormData({
                 name: user.name || '',
                 email: user.email || '',
-                phone: user.phone || '',
+                phone: user.contactPhone || '',
                 password: '',
             });
             setTempAvatar(null);
@@ -78,7 +79,8 @@ export const useProfileTab = (user: UserProfile | null, onUpdate?: () => void): 
             const updateData: UpdateProfileData = {};
             
             if (formData.name !== user?.name) updateData.name = formData.name;
-            if (formData.phone !== user?.phone) updateData.phone = formData.phone;
+            // ✅ ИСПРАВЛЕНО: contactPhone вместо phone
+            if (formData.phone !== user?.contactPhone) updateData.contactPhone = formData.phone;
             if (formData.email !== user?.email) updateData.email = formData.email;
             if (formData.password) {
                 updateData.password = formData.password;
