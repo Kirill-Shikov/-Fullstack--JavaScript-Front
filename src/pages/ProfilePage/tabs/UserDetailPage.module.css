@@ -186,11 +186,7 @@
   background-color: #6AA378;
 }
 
-.chatWidgetWrapper {
-  position: relative;
-  top: -103px;
-  left: 1050px;
-}
+
 
 .modalOverlay {
   position: fixed;
@@ -344,4 +340,15 @@
 
 .modalSubmit {
   width: 270px;
+}
+
+.chatWidgetWrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
 }

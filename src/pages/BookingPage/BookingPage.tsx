@@ -31,7 +31,7 @@ export const BookingPage: React.FC = () => {
             </div>
         );
     }
-
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
     return (
         <div className={styles.page}>
             <section className={styles.containerBook}>
@@ -41,7 +41,11 @@ export const BookingPage: React.FC = () => {
                 <div className={styles.bookBlock}>
                     <div className={styles.bookCover}>
                         <div className={styles.coverPlaceholder}>
-                            <Icon name="book" size={64} />
+                            <img 
+            src={`${API_URL}${book.coverImage}`} 
+            alt={book.title} 
+            className={styles.bookCoverImage} 
+        />
                         </div>
                     </div>
                     <div className={styles.bookInfo}>
@@ -73,16 +77,18 @@ export const BookingPage: React.FC = () => {
                         const isAvailable = available > 0;
 
                         return (
+                            
                             <div
                                 key={library.id}
                                 className={`${styles.libraryCard} ${
                                     selectedLibrary === library.id ? styles.libraryCardActive : ''
                                 } ${!isAvailable ? styles.libraryCardDisabled : ''}`}
-                                onClick={() => {
-                                    if (isAvailable) {
-                                        setSelectedLibrary(library.id);
-                                    }
-                                }}
+                               onClick={() => {
+    if (isAvailable) {
+        console.log('✅ Устанавливаем selectedLibrary:', library.id);
+        setSelectedLibrary(library.id);
+    }
+}}
                             >
                                 <div className={styles.libraryInfo}>
                                     <h4 className={styles.libraryName}>{library.name}</h4>

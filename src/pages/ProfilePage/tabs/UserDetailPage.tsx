@@ -43,10 +43,7 @@ export const UserDetailPage: React.FC = () => {
         <div className={styles.userDetailPage}>
             <div className={styles.userDetailHeader}>
                 <h1 className={styles.userDetailName}>{user.name}</h1>
-                <FindBookButton
-                    className={styles.backButton}
-                    onClick={navigateBack}
-                >
+                <FindBookButton className={styles.backButton} onClick={navigateBack}>
                     <Icon name="arrow-big-left" size={24} />
                     Назад
                 </FindBookButton>
@@ -97,23 +94,23 @@ export const UserDetailPage: React.FC = () => {
             {/* --- БЛОК КНИГ ПОЛЬЗОВАТЕЛЯ --- */}
             <div className={styles.userBooksSection}>
                 <h3 className={styles.booksTitle}>Книги пользователя</h3>
-                
+
                 {/* Панель фильтров (вкладки) */}
                 <div className={styles.filterWrapper}>
-                    <button 
+                    <button
                         className={`${styles.filterButton} ${activeFilter === 'all' ? styles.filterBtnActive : ''}`}
                         onClick={() => setActiveFilter('all')}
                     >
                         Все
                     </button>
-                    <button 
+                    <button
                         className={`${styles.filterButton} ${activeFilter === 'active' ? styles.filterBtnActive : ''}`}
                         onClick={() => setActiveFilter('active')}
                     >
                         <Icon name="bookmarked" className={styles.filterIcon} />
                         Забронирована
                     </button>
-                    <button 
+                    <button
                         className={`${styles.filterButton} ${activeFilter === 'returned' ? styles.filterBtnActive : ''}`}
                         onClick={() => setActiveFilter('returned')}
                     >
@@ -147,7 +144,9 @@ export const UserDetailPage: React.FC = () => {
                                         <td>
                                             <div className={styles.userContactInfo}>
                                                 <div className={styles.userName}>{book.title}</div>
-                                                <div className={styles.userName}>/ {book.author}</div>
+                                                <div className={styles.userName}>
+                                                    / {book.author}
+                                                </div>
                                             </div>
                                         </td>
                                         <td className={styles.userName}>{book.library}</td>
@@ -157,9 +156,13 @@ export const UserDetailPage: React.FC = () => {
                                             <div
                                                 className={`${styles.roleIconWrapper} ${book.status === 'active' ? styles.roleAdmin : styles.roleClient}`}
                                             >
-                                                <Icon 
-                                                    name={book.status === 'active' ? 'bookmarked' : 'squarecheck'} 
-                                                    size={24} 
+                                                <Icon
+                                                    name={
+                                                        book.status === 'active'
+                                                            ? 'bookmarked'
+                                                            : 'squarecheck'
+                                                    }
+                                                    size={24}
                                                     className={styles.statusIconGreen} // Добавляем класс для зеленого цвета
                                                 />
                                             </div>
@@ -173,24 +176,16 @@ export const UserDetailPage: React.FC = () => {
             </div>
 
              {/* Виджет поддержки */}
-            <div className={styles.chatWidgetWrapper}>
-                <div className={styles.chatContainer}>
-                    {isChatOpen && (
-                        <div className={styles.chatWindow}>
-                            <SupportChatWidget 
-                               isOpen={isChatOpen}
-    onClose={() => {
-        setIsChatOpen(false);
-        fetchUser();
-    }}
-    userId={user?.id}
-                            />
-                        </div>
-                    )}
-                    <SupportChatButton onClick={handleToggleChat} hasUnread={user?.hasUnreadMessages} isActive={isChatOpen}/>
-                </div>
-            </div>
-            
+      <div className={styles.chatWidgetWrapper}>
+        {isChatOpen && (
+          <SupportChatWidget 
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)} 
+          />
+        )}
+        <SupportChatButton onClick={handleToggleChat} />
+      </div>
+
             {/* Модалка редактирования */}
             {isEditModalOpen && (
                 <div className={styles.modalOverlay} onClick={() => setIsEditModalOpen(false)}>
@@ -317,7 +312,13 @@ export const UserDetailPage: React.FC = () => {
                                         placeholder="12.03.2024"
                                         readOnly
                                         className={styles.dateText}
-                                        value={user.createdAt ? new Date(user.createdAt).toLocaleDateString('ru-RU') : ''}
+                                        value={
+                                            user.createdAt
+                                                ? new Date(user.createdAt).toLocaleDateString(
+                                                      'ru-RU',
+                                                  )
+                                                : ''
+                                        }
                                     />
                                 </div>
                             </div>
@@ -341,13 +342,15 @@ export const UserDetailPage: React.FC = () => {
             {isDeleteModalOpen && (
                 <div className={styles.modalOverlay} onClick={() => setIsDeleteModalOpen(false)}>
                     <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-                        <h3 className={styles.modalTitle}>Вы действительно хотите удалить пользователя?</h3>
+                        <h3 className={styles.modalTitle}>
+                            Вы действительно хотите удалить пользователя?
+                        </h3>
                         <div className={styles.modalButtons}>
                             <FindBookButton
                                 className={styles.modalCancel}
                                 onClick={() => setIsDeleteModalOpen(false)}
                             >
-                                Вернуться назад 
+                                Вернуться назад
                             </FindBookButton>
                             <DeleteUserButton className={styles.modalSubmit} onClick={handleDelete}>
                                 Да, удалить пользователя

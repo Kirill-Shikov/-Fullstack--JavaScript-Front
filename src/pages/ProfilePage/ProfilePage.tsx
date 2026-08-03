@@ -1,4 +1,3 @@
-// src/pages/ProfilePage/ProfilePage.tsx
 import React from 'react';
 import { ProfileLayout } from '../../components/layouts/ProfileLayout';
 import { MainTab, BooksTab, ProfileTab, AdminTab, AdminUsersTab, AdminLibrariesTab, UserDetailPage, LibraryDetailPage, AdminAddBookPage } from './tabs';

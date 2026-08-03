@@ -13,7 +13,7 @@ export const SupportChatButton: React.FC<SupportChatButtonProps> = ({
     onClick,
     className = '',
     hasUnread = false,
-    isActive = false,  // ← ДОБАВИТЬ
+    isActive = false,
 }) => {
     return (
         <button 

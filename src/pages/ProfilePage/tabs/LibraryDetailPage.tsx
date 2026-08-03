@@ -447,7 +447,8 @@ export const LibraryDetailPage: React.FC = () => {
                                         />
                                         <div className={styles.coverUploadWrapper}>
                                             {coverPreview ? (
-                                                <div className={styles.coverInfo}>
+                                                <div className={styles.coverInfo} onClick={() => document.getElementById('cover-upload-edit')?.click()}
+            style={{ cursor: 'pointer' }}>
                                                     <span className={styles.coverFileName}>
                                                         <Icon name="paperclip" size={16} />
                                                         {coverFile?.name || 'Обложка'}

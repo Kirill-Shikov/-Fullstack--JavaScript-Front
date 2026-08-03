@@ -41,6 +41,7 @@ export const BookCard: React.FC<BookCardProps> = ({
     buttonText = 'Забронировать',
     className = '',
 }) => {
+    
     const navigate = useNavigate();
 
     /**
@@ -65,13 +66,18 @@ export const BookCard: React.FC<BookCardProps> = ({
     };
     
     const libraryDisplay = getLibraryName(book.library);
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
     
     return (
         <div className={`${styles.bookCard} ${styles[size]} ${className}`}>
           <div className={styles.wrapperBook}>
             <div className={styles.bookCover}>
                 {book.coverImage ? (
-                    <img src={book.coverImage} alt={book.title} className={styles.coverImage} />
+                    <img 
+    src={`${API_URL}${book.coverImage}`} 
+    alt={book.title} 
+    className={styles.coverImage} 
+/>
                 ) : (
                     <div className={styles.placeholderCover}>
                         <Icon name="book" size={size === 'small' ? 32 : 48} />

@@ -28,7 +28,7 @@ export const AdminTab: React.FC = () => {
     <div className={styles.adminStatsRow}>
       {/* Приветствие */}
       <h1 className={styles.adminGreeting}>
-        {isAdmin ? 'Добро пожаловать в админ-панель!' : 'Добро пожаловать в панель библиотекаря!'}
+        {isAdmin ? 'Добро пожаловать в админ-панель!' : 'Добро пожаловать в админ-панель!'}
       </h1>
 
       {/* Первая строка статистики */}

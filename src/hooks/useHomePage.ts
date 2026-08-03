@@ -40,7 +40,9 @@ export const useHomePage = (): UseHomePageReturn => {
 
     // Форматирование книг из API
     const formatBooks = (data: any[]): Book[] => {
-        return data.map((item: any) => ({
+    return data.map((item: any) => {
+        console.log('📸 Форматирование:', item.id, item.title, 'coverImage:', item.coverImage);
+        return {
             id: item.id,
             title: item.title,
             author: item.author,
@@ -48,7 +50,8 @@ export const useHomePage = (): UseHomePageReturn => {
             description: item.description,
             library: item.library?.name || 'Библиотека',
             coverImage: item.coverImage || '',
-        }));
+        };
+    });
     };
 
     // Загрузка книг

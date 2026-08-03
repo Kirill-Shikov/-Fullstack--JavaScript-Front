@@ -12,9 +12,9 @@ interface Book {
     libraryId?: number;
     totalCopies?: number;
     availableCopies?: number;
+    coverImage?: string;
 }
 
-// Расширяем интерфейс Library - добавляем информацию о книге в библиотеке
 interface Library {
     id: number;
     name: string;
@@ -55,13 +55,10 @@ export const useBooking = (bookId: string | undefined): UseBookingReturn => {
                 const bookData = bookResponse.data;
                 setBook(bookData);
 
-                // Получаем все библиотеки
                 const librariesResponse = await librariesAPI.getAll();
                 const allLibraries = librariesResponse.data;
 
-                // ✅ ДЛЯ КАЖДОЙ БИБЛИОТЕКИ ДОБАВЛЯЕМ ИНФОРМАЦИЮ О КНИГЕ
                 const librariesWithBook = allLibraries.map((library: Library) => {
-                    // Если книга в этой библиотеке - берем количество копий
                     if (library.id === bookData.libraryId) {
                         return {
                             ...library,
@@ -69,7 +66,6 @@ export const useBooking = (bookId: string | undefined): UseBookingReturn => {
                             bookAvailableCopies: bookData.availableCopies || 0,
                         };
                     } else {
-                        // Если книги нет - 0 копий
                         return {
                             ...library,
                             bookTotalCopies: 0,
@@ -80,10 +76,9 @@ export const useBooking = (bookId: string | undefined): UseBookingReturn => {
 
                 setLibraries(librariesWithBook);
 
-                // Автоматически выбираем библиотеку, если книга есть только в одной
                 const availableLibraries = librariesWithBook.filter(
-    (lib: Library) => lib.bookAvailableCopies && lib.bookAvailableCopies > 0
-);
+                    (lib: Library) => lib.bookAvailableCopies && lib.bookAvailableCopies > 0
+                );
                 if (availableLibraries.length === 1) {
                     setSelectedLibrary(availableLibraries[0].id);
                 }
@@ -122,10 +117,15 @@ export const useBooking = (bookId: string | undefined): UseBookingReturn => {
     };
 
     const handleBooking = async () => {
+        // ✅ Проверка выбора библиотеки
         if (!selectedLibrary) {
+            alert('Пожалуйста, выберите библиотеку');
             return;
         }
+        
+        // ✅ Проверка выбора дат
         if (!dateStart || !dateEnd) {
+            alert('Пожалуйста, выберите даты');
             return;
         }
 
@@ -136,23 +136,31 @@ export const useBooking = (bookId: string | undefined): UseBookingReturn => {
         const endDate = parseDate(dateEnd);
         
         if (!startDate || !endDate) {
+            alert('Пожалуйста, выберите корректные даты');
             return;
         }
         
+        // ✅ Проверка: дата в прошлом
         if (startDate < today) {
+            alert('Дата выдачи не может быть в прошлом!');
             return;
         }
         
         if (endDate < today) {
+            alert('Дата возврата не может быть в прошлом!');
             return;
         }
         
+        // ✅ Проверка: дата возврата раньше выдачи
         if (endDate <= startDate) {
+            alert('Дата возврата должна быть позже даты выдачи!');
             return;
         }
         
+        // ✅ Проверка: слишком долгий срок
         const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
         if (daysDiff > 30) {
+            alert('Срок бронирования не может превышать 30 дней!');
             return;
         }
 
@@ -178,7 +186,12 @@ export const useBooking = (bookId: string | undefined): UseBookingReturn => {
                 },
             });
         } catch (error: any) {
-            // Ошибка бронирования
+            // ✅ ОПОВЕЩЕНИЕ ОБ ОШИБКЕ
+            if (error.response?.status === 409) {
+                alert('Все копии книги уже забронированы на выбранные даты. Попробуйте другие даты.');
+            } else {
+                alert(error.response?.data?.message || 'Ошибка бронирования. Попробуйте позже.');
+            }
         } finally {
             setIsLoading(false);
         }

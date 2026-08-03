@@ -9,57 +9,31 @@ import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import { BookingSuccessPage } from './pages/BookingSuccessPage/BookingSuccessPage';
 
+// Компонент-обертка для страниц с хедером и футером
+const Layout = ({ children }: { children: React.ReactNode }) => (
+  <>
+    <Header />
+    {children}
+    <Footer />
+  </>
+);
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Страницы с хедером и футером */}
-        <Route path="/" element={
-          <>
-            <Header />
-            <HomePage />
-            <Footer />
-          </>
-        } />
-        <Route path="search" element={
-          <>
-            <Header />
-            <SearchResultsPage />
-            <Footer />
-          </>
-        } />
-        <Route path="search/:query" element={
-          <>
-            <Header />
-            <SearchResultsPage />
-            <Footer />
-          </>
-        } />
-        <Route path="booking/:bookId" element={
-          <>
-            <Header />
-            <BookingPage />
-            <Footer />
-          </>
-        } />
-        <Route path="booking-success" element={
-          <>
-            <Header />
-            <BookingSuccessPage />
-            <Footer />
-          </>
-        } />
+        <Route path="/" element={<Layout><HomePage /></Layout>} />
+        <Route path="search" element={<Layout><SearchResultsPage /></Layout>} />
+        <Route path="search/:query" element={<Layout><SearchResultsPage /></Layout>} />
+        <Route path="booking/:bookId" element={<Layout><BookingPage /></Layout>} />
+        <Route path="booking-success" element={<Layout><BookingSuccessPage /></Layout>} />
         
         {/* Профиль - БЕЗ хедера и футера */}
         <Route path="profile/*" element={<ProfilePage />} />
         
-        <Route path="*" element={
-          <>
-            <Header />
-            <NotFoundPage />
-            <Footer />
-          </>
-        } />
+        {/* 404 - БЕЗ хедера и футера */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

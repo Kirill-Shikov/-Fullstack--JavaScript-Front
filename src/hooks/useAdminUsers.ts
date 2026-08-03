@@ -60,7 +60,7 @@ export const useAdminUsers = () => {
           // ВКЛЮЧАЕМ КРУЖКИ ДЛЯ КОНКРЕТНЫХ ID (31, 30, 29)
           hasUnreadMessages: [31, 30, 29].includes(user.id), // ← МЕНЯЙ ID НУЖНЫХ ЛЮДЕЙ!
           lastActivity: user.updatedAt || user.createdAt || new Date().toISOString(),
-          activeBookings: 0,
+        
         })));
       } catch (err: any) {
         setError(err.response?.data?.message || 'Ошибка загрузки пользователей');
@@ -74,6 +74,10 @@ export const useAdminUsers = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, roleFilter]);
+
   // Фильтрация
   const filteredUsers = users.filter(u => {
     const matchesSearch = 
@@ -81,6 +85,7 @@ export const useAdminUsers = () => {
       u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       String(u.id).includes(searchQuery);
     const matchesRole = roleFilter === 'all' || u.role === roleFilter;
+    
     return matchesSearch && matchesRole;
   });
 
@@ -93,7 +98,7 @@ export const useAdminUsers = () => {
 
   // Добавление пользователя
   const handleAddUser = async () => {
-    if (!newUser.name || !newUser.email || !newUser.password) {
+    if (!newUser.name || !newUser.email ) {
       alert('Заполните все обязательные поля');
       return;
     }
@@ -125,9 +130,9 @@ export const useAdminUsers = () => {
 
   const getRoleIcon = (role: string) => {
     switch (role) {
-      case 'admin': return '👑';
-      case 'manager': return '📚';
-      default: return '👤';
+      case 'admin': return '';
+      case 'manager': return '';
+      default: return '';
     }
   };
 
