@@ -27,7 +27,7 @@ interface UseSupportChatReturn {
 export const useSupportChat = (
     isOpen: boolean, 
     userId?: number | string,
-    onRead?: () => void  // ← ДОБАВИТЬ
+    onRead?: () => void  
 ): UseSupportChatReturn => {
     const { user } = useAuth();
     const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -47,10 +47,13 @@ export const useSupportChat = (
     // WebSocket
     useEffect(() => {
         if (!isOpen || !requestId) return;
-
+        const token = localStorage.getItem('token');
         const socket = io('http://localhost:3000/support', {
             transports: ['websocket'],
             withCredentials: true,
+             auth: {
+    token: token,
+  },
         });
         socketRef.current = socket;
 
